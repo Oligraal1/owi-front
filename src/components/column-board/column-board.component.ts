@@ -13,7 +13,7 @@ import { CdkDragDrop, DragDropModule, moveItemInArray, transferArrayItem } from 
 export class ColumnBoardComponent {
   @Input() title: string = '';
   @Input() tasks: any[] = [];
-   @Input() connectedTo: string[] = [];
+  @Input() connectedTo: string[] = [];
 
    drop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {

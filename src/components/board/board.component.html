@@ -1,9 +1,8 @@
+ <!-- Bouton pour ouvrir la modal de création -->
+ <button type="button" class="btn btn-primary mt-3" (click)="openCreateListingModal()">Créer une nouvelle liste</button>
 <div class="board">
   <!-- Affichage des colonnes existantes -->
   <app-column-board *ngFor="let listing of listings" [title]="listing.name" [tasks]="listing.tasks" cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListData]="listing.name"></app-column-board>
-  
-  <!-- Bouton pour ouvrir la modal de création -->
-  <button type="button" class="btn btn-primary mt-3" (click)="openCreateListingModal()">Créer une nouvelle colonne</button>
 </div>
 
 <!-- Modal de création de colonne -->
@@ -20,7 +19,7 @@
         <!-- Formulaire de création de colonne -->
         <form (ngSubmit)="createListing()">
           <div class="form-group">
-            <label for="columnName">Nom de la colonne</label>
+            <label for="columnName">Nom de la liste</label>
             <input type="text" class="form-control" id="columnName" name="columnName" [(ngModel)]="newListingName" required>
           </div>
           <button type="submit" class="btn btn-primary">Créer</button>

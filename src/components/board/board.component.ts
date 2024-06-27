@@ -5,6 +5,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { HttpClient, HttpClientModule, } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { FetcherService } from '../../services/fetcher.service';
 
 @Component({
   selector: 'app-board',
@@ -17,17 +18,17 @@ export class BoardComponent {
   listings: any[] = []; // Array pour stocker les colonnes existantes
   newListingName: string = ''; // Variable pour stocker le nom de la nouvelle colonne
   isCreateListingModalOpen: boolean = false; // Variable pour gérer l'état de la modal
-
-  constructor(private http: HttpClient) {}
+  projectId =1;
+  constructor(private api: FetcherService) {}
 
   ngOnInit() {
-    // Charge les colonnes existantes depuis l'API 
+    // Charge les colonnes existantes depuis l'API
     this.loadListings();
   }
 
   loadListings() {
     // Chargement des colonnes depuis une API
-    this.http.get<any[]>('/api/listings').subscribe(
+    this.api.getListingsByProjectId(this.projectId).subscribe(
       (data) => {
         this.listings = data;
       },
@@ -46,19 +47,18 @@ export class BoardComponent {
   }
 
   createListing() {
-    // Exemple d'envoi des données de création de colonne à une API (vous devez implémenter votre propre logique d'API)
-    const newListing = { name: this.newListingName };
+    const newListing = { name: this.newListingName, projetcId: this.projectId };
 
-    this.http.post('votre/api/create-listing', newListing).subscribe(
+    this.api.createListing(newListing).subscribe(
       () => {
-        console.log('Nouvelle colonne créée avec succès');
+        console.log('Nouvelle liste créée avec succès');
         // Rechargez les colonnes après la création
         this.loadListings();
         // Fermez la modal après la création
         this.closeCreateListingModal();
       },
       (error) => {
-        console.error('Erreur lors de la création de la colonne', error);
+        console.error('Erreur lors de la création de la liste', error);
       }
     );
   }
