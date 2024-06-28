@@ -22,6 +22,14 @@ export class NavComponent implements OnInit {
     })
   }
 
+
+  getid (id:number){
+
+    console.log(id)
+
+    this.api.getProjectById(id)
+  }
+
   toCreateProject(){
     const newProject = {name: this.newProjectName};
     
