@@ -50,7 +50,44 @@ export class FetcherService {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 
-  //TASKS
+  //-----------TASKS----------------------------
+  getTaskByListingId(listingId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/listing/${listingId}`);
+  }
 
-  //COMMENTS
+  /*getTask(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/projects/${id}`);
+  }*/
+
+  createTask(task: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, task);
+  }
+
+  updateTask(id: number, task: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, task);
+  }
+
+  deleteTask(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  }
+
+
+  //---------------COMMENTS---------------------
+  getCommentByTaskId(commentId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/listing/${commentId}`);
+  }
+
+  createComment(comment: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, comment);
+  }
+
+  updateComment(id: number, comment: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, comment);
+  }
+
+  deleteComment(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  }
+
+
 }
