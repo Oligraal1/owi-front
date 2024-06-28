@@ -1,12 +1,14 @@
-<div class="card" style="width: 18rem;">
-    <div class="card-body">
+<div class="card" style="width: 18rem">
+  <div class="card-body">
 
-      <div *ngIf="task">
-  <h5 class="card-title">{{ task?.Name }}</h5>
-  <h6 class="card-subtitle mb-2 text-muted">{{ task?.CreatedAt | date }}</h6>
-  <h6 class="card-subtitle mb-2 text-muted">{{ task?.ModifiedAt | date }}</h6>
-  <p class="card-text">{{ task?.Description }}</p>
-</div>
-           <app-comments></app-comments> 
-  </div>
+    <div *ngIf="task">
+      <h5 class="card-title">{{ task?.Name }}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">{{ task?.CreatedAt }}</h6>
+      <h6 class="card-subtitle mb-2 text-muted">{{ task?.ModifiedAt }}</h6>
+      <p class="card-text">{{ task?.Description }}</p>
+    </div>
+    
+    <app-comments></app-comments>
   
+  </div>
+</div>

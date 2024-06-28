@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CommentsComponent } from '../comments/comments.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-task',
   standalone: true,
-  imports: [CommentsComponent],
+  imports: [CommonModule,CommentsComponent],
   templateUrl: './task.component.html',
   styleUrl: './task.component.scss'
 })
 export class TaskComponent implements OnInit {
-  task: TaskComponent | undefined; // Define the task property with the Task type
+  task: any  // Define the task property with the Task type
 
   constructor() {
     // Initialize the task property (example with dummy data)
