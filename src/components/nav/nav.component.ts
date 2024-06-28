@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FetcherService } from '../../services/fetcher.service';
 
 @Component({
@@ -10,15 +10,15 @@ import { FetcherService } from '../../services/fetcher.service';
   styleUrl: './nav.component.scss'
 })
 export class NavComponent implements OnInit {
-  projects: any = [];
-  constructor(public fetcher: FetcherService) {}
+  @Input() projects: any = [];
+  constructor(public api: FetcherService) {}
 
   ngOnInit(): void {
-    /*this.fetcher.getProjects().subscribe((data:any) => {
+    this.api.getProjects().subscribe((data:any) => {
       console.log(data);
       this.projects = data;
-    })*/
-   this.projects = ["projet1","projet2","projet3"]; //ligne à supprimer après lien avec API
+    })
+  
   }
 
 }

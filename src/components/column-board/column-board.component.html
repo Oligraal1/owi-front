@@ -1,0 +1,7 @@
+  <h2>{{ title }}</h2>
+  <div class="tasks" cdkDropList [cdkDropListData]="tasks" (cdkDropListDropped)="drop($event)" [cdkDropListConnectedTo]="connectedTo">
+    <div *ngFor="let task of tasks" cdkDrag>
+      <app-task-board [task]="task"></app-task-board>
+    </div>
+  </div>
+
