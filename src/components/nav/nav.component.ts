@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FetcherService } from '../../services/fetcher.service';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav',
@@ -11,9 +12,10 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './nav.component.scss'
 })
 export class NavComponent implements OnInit {
-  @Input() projects: any = [];
+  projects: any = [];
+  currentProjectId = 0;
   newProjectName: string = '';
-  constructor(public api: FetcherService) {}
+  constructor(public api: FetcherService, private router: Router) {}
 
   ngOnInit(): void {
     this.api.getProjects().subscribe((data:any) => {
@@ -22,12 +24,11 @@ export class NavComponent implements OnInit {
     })
   }
 
+  public getid (id:number){
 
-  getid (id:number){
-
-    console.log(id)
-
-    this.api.getProjectById(id)
+    this.currentProjectId = id;
+   console.log(this.currentProjectId);
+   this.router.navigate(['/Board', id]);
   }
 
   toCreateProject(){

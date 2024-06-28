@@ -6,25 +6,31 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { HttpClient, HttpClientModule, } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { FetcherService } from '../../services/fetcher.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.css'],
   standalone: true,
-  imports: [CommonModule, ColumnBoardComponent, DragDropModule, FormsModule, HttpClientModule,]
+  imports: [CommonModule, ColumnBoardComponent, DragDropModule, FormsModule, HttpClientModule]
 })
 export class BoardComponent {
   listings: any[] = []; // Array pour stocker les colonnes existantes
   newListingName: string = ''; // Variable pour stocker le nom de la nouvelle colonne
   isCreateListingModalOpen: boolean = false; // Variable pour gérer l'état de la modal
-  projectId =1;
-  constructor(private api: FetcherService) {}
+  projectId = 0;
+  constructor(private api: FetcherService,private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      console.log("id récup de la route " + id);
+    });
     // Charge les colonnes existantes depuis l'API
-    this.loadListings();
+    // this.loadListings();
   }
+
 
   loadListings() {
     // Chargement des colonnes depuis une API
