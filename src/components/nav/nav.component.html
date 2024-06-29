@@ -1,11 +1,18 @@
-<nav>
+<nav class="nav-container">
     <p>Menu</p>
-    <form (ngSubmit)="toCreateProject()">
-    Entrez le nom du nouveau projet :
-    <input type="text" name="newProjectName" [(ngModel)]="newProjectName" required>
-    <button class="btn btn-primary" type="submit">Valider</button>
+    <button *ngIf="!this.isOpen" class="btn btn-primary"
+        (click)="openModalCreation()">Créer un nouveau projet</button>
+    <form class *ngIf="this.isOpen" (ngSubmit)="toCreateProject()">
+       <label for="newProjectName">Entrez le nom du nouveau projet :</label>
+        <input type="text" name="newProjectName" id="newProjectName"
+            [(ngModel)]="newProjectName"
+            required>
+        <button class="btn btn-primary" type="submit">Valider</button>
     </form>
     <div *ngFor="let project of this.projects">
-        <div (click)="getid(project.id)">{{project.name}} <button class="btn btn-primary">...</button></div>
+        <ul>
+            <li class>{{project.name}} <span (click)="getid(project.id)"
+                    class="dot">...</span></li>
+        </ul>
     </div>
 </nav>

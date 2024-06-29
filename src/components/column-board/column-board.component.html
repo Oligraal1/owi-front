@@ -1,7 +1,16 @@
-  <h2>{{ title }}</h2>
-  <div class="tasks" cdkDropList [cdkDropListData]="tasks" (cdkDropListDropped)="drop($event)" [cdkDropListConnectedTo]="connectedTo">
-    <div *ngFor="let task of tasks" cdkDrag>
-      <app-task-board [task]="task"></app-task-board>
-    </div>
+ <h2>{{ title }}</h2>
+<div
+  class="tasks"
+  cdkDropList
+  [cdkDropListData]="tasks"
+  (cdkDropListDropped)="drop($event, this.listingId)"
+  [cdkDropListConnectedTo]="connectedTo">
+  <div>
+    <app-create-task [listingId]="this.listingId"
+      (loadTasks)="this.loadTasksByListing(this.listingId)"></app-create-task>
   </div>
+  <div *ngFor="let task of tasks" cdkDrag>
+  <div class="task" [style.background-color]="task.tag">{{ task.name }}</div>
 
+  </div>
+</div>

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ColumnBoardComponent } from '../column-board/column-board.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { HttpClient, HttpClientModule, } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { FetcherService } from '../../services/fetcher.service';
 import { ActivatedRoute } from '@angular/router';
@@ -13,30 +12,39 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.css'],
   standalone: true,
-  imports: [CommonModule, ColumnBoardComponent, DragDropModule, FormsModule, HttpClientModule]
+  imports: [CommonModule, ColumnBoardComponent, DragDropModule, FormsModule]
 })
 export class BoardComponent {
-  listings: any[] = []; // Array pour stocker les colonnes existantes
-  newListingName: string = ''; // Variable pour stocker le nom de la nouvelle colonne
-  isCreateListingModalOpen: boolean = false; // Variable pour gérer l'état de la modal
-  projectId = 0;
+  listings: any[] = [];
+  newListingName: string = ''; 
+  isCreateListingModalOpen: boolean = false;
+  projectId:any = 0;
+  projectName!:string;
+  listingId!:number;
+
   constructor(private api: FetcherService,private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      console.log("id récup de la route " + id);
+      this.projectId = params.get('id');
     });
+
+    this.loadProjectName(this.projectId)
     // Charge les colonnes existantes depuis l'API
-    // this.loadListings();
+    this.loadListings();
+    console.log(2000,this.listings)
+    console.log(this.listingId)
   }
 
-
+  loadProjectName(id: number) {
+    this.api.getProjectById(id).subscribe(data => this.projectName = data.name)
+  }
   loadListings() {
     // Chargement des colonnes depuis une API
     this.api.getListingsByProjectId(this.projectId).subscribe(
       (data) => {
         this.listings = data;
+        
       },
       (error) => {
         console.error('Erreur lors du chargement des listings', error);
@@ -53,14 +61,12 @@ export class BoardComponent {
   }
 
   createListing() {
-    const newListing = { name: this.newListingName, projetcId: this.projectId };
+    const newListing = { name: this.newListingName, projectId: this.projectId };
 
     this.api.createListing(newListing).subscribe(
       () => {
         console.log('Nouvelle liste créée avec succès');
-        // Rechargez les colonnes après la création
         this.loadListings();
-        // Fermez la modal après la création
         this.closeCreateListingModal();
       },
       (error) => {
@@ -68,14 +74,35 @@ export class BoardComponent {
       }
     );
   }
-   drop(event: CdkDragDrop<any[]>) {
+
+  getConnectedToList(currentListingId: number): string[] {
+  return this.listings
+    .filter(l => l.id !== currentListingId) // Exclure la colonne actuelle
+    .map(l => l.id.toString());
+}
+
+   drop(event: CdkDragDrop<any[]>, id: number) {
+    console.log(event)
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      console.log('ko')
     } else {
+      const taskId = event.previousContainer.data[event.previousIndex].id;
+    const sourceListingId = this.listings.find(listing => listing.tasks === event.previousContainer.data)?.id;
+      // const taskId = event.previousContainer.data[event.previousIndex].id;
+      id = this.listingId;
       transferArrayItem(event.previousContainer.data,
                         event.container.data,
                         event.previousIndex,
                         event.currentIndex);
+      this.api.updateTask(taskId, {listingId: id}).subscribe(
+        () => {
+          console.log('Task column updated successfully');
+        },
+        error => {
+          console.error('Error updating task column', error);
+        }
+      );
     }
   }
 }
