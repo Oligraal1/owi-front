@@ -8,12 +8,12 @@
     <!-- Affichage des colonnes existantes -->
     <app-column-board
       *ngFor="let listing of listings"
-        [title]="listing.name"
-        [listingId]="listing.id"
-        cdkDropList
-        (cdkDropListDropped)="drop($event, listing.id)"
-        [cdkDropListData]="listing.tasks"
-        [cdkDropListConnectedTo]="getConnectedToList(listing.id)">
+      [title]="listing.name"
+      [listingId]="listing.id"
+      cdkDropList
+      (cdkDropListDropped)="drop($event, listing.id)"
+      [cdkDropListData]="listing.tasks"
+      [connectedTo]="getConnectedToList(listing.id)">
     </app-column-board>
   </div>
 

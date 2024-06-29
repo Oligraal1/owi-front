@@ -21,6 +21,7 @@ var BoardComponent = /** @class */ (function () {
         this.newListingName = '';
         this.isCreateListingModalOpen = false;
         this.projectId = 0;
+        this.connectedTo = [];
     }
     BoardComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -65,23 +66,17 @@ var BoardComponent = /** @class */ (function () {
     };
     BoardComponent.prototype.getConnectedToList = function (currentListingId) {
         return this.listings
-            .filter(function (l) { return l.id !== currentListingId; }) // Exclure la colonne actuelle
+            .filter(function (l) { return l.id != currentListingId; })
             .map(function (l) { return l.id.toString(); });
     };
-    BoardComponent.prototype.drop = function (event, id) {
-        var _a;
-        console.log(event);
+    BoardComponent.prototype.drop = function (event, listingId) {
         if (event.previousContainer === event.container) {
             drag_drop_2.moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-            console.log('ko');
         }
         else {
             var taskId = event.previousContainer.data[event.previousIndex].id;
-            var sourceListingId = (_a = this.listings.find(function (listing) { return listing.tasks === event.previousContainer.data; })) === null || _a === void 0 ? void 0 : _a.id;
-            // const taskId = event.previousContainer.data[event.previousIndex].id;
-            id = this.listingId;
             drag_drop_2.transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
-            this.api.updateTask(taskId, { listingId: id }).subscribe(function () {
+            this.api.updateTask(taskId, { listingId: listingId }).subscribe(function () {
                 console.log('Task column updated successfully');
             }, function (error) {
                 console.error('Error updating task column', error);

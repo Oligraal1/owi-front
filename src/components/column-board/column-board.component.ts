@@ -4,6 +4,7 @@ import { CdkDragDrop, DragDropModule, moveItemInArray, transferArrayItem } from 
 import { FetcherService } from '../../services/fetcher.service';
 import { CreateTaskComponent } from '../create-task/create-task.component';
 
+
 @Component({
   selector: 'app-column-board',
   templateUrl: './column-board.component.html',
@@ -24,6 +25,7 @@ export class ColumnBoardComponent implements OnInit {
   ngOnInit(): void {
       this.loadTasksByListing(this.listingId);
       console.log(5000,this.listingId)
+      console.log(2500,this.connectedTo)
   }
 
   loadTasksByListing(id: number) {
@@ -31,14 +33,15 @@ export class ColumnBoardComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<any[]>, id: number) {
-    console.log(event.previousContainer)
-    console.log(event.container)
+   
+    console.log(1000,this.connectedTo)
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       console.log('ok')
     } else {
       const taskId = event.previousContainer.data[event.previousIndex].id;
       this.listingId = id;
+      console.log(1500,this.connectedTo)
       transferArrayItem(event.previousContainer.data,
                         event.container.data,
                         event.previousIndex,
@@ -52,5 +55,19 @@ export class ColumnBoardComponent implements OnInit {
         }
       );
     }
+  }
+
+  toggleDropdown(task: any) {
+    task.showDropdown = !task.showDropdown;
+  }
+
+  editTask(task: any) {
+    // Logique pour l'édition de la tâche
+    console.log('Editing task:', task);
+  }
+
+  deleteTask(task: any) {
+    // Logique pour la suppression de la tâche
+    console.log('Deleting task:', task);
   }
 }

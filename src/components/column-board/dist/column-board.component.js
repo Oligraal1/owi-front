@@ -21,14 +21,14 @@ var ColumnBoardComponent = /** @class */ (function () {
     ColumnBoardComponent.prototype.ngOnInit = function () {
         this.loadTasksByListing(this.listingId);
         console.log(5000, this.listingId);
+        console.log(2500, this.connectedTo);
     };
     ColumnBoardComponent.prototype.loadTasksByListing = function (id) {
         var _this = this;
         this.api.getTasksByIdListing(id).subscribe(function (data) { return _this.tasks = data; });
     };
     ColumnBoardComponent.prototype.drop = function (event, id) {
-        console.log(event.previousContainer);
-        console.log(event.container);
+        console.log(1000, this.connectedTo);
         if (event.previousContainer === event.container) {
             drag_drop_1.moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
             console.log('ok');
@@ -36,6 +36,7 @@ var ColumnBoardComponent = /** @class */ (function () {
         else {
             var taskId = event.previousContainer.data[event.previousIndex].id;
             this.listingId = id;
+            console.log(1500, this.connectedTo);
             drag_drop_1.transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
             this.api.updateTask(taskId, { listingId: id }).subscribe(function () {
                 console.log('Task column updated successfully');
@@ -43,6 +44,17 @@ var ColumnBoardComponent = /** @class */ (function () {
                 console.error('Error updating task column', error);
             });
         }
+    };
+    ColumnBoardComponent.prototype.toggleDropdown = function (task) {
+        task.showDropdown = !task.showDropdown;
+    };
+    ColumnBoardComponent.prototype.editTask = function (task) {
+        // Logique pour l'édition de la tâche
+        console.log('Editing task:', task);
+    };
+    ColumnBoardComponent.prototype.deleteTask = function (task) {
+        // Logique pour la suppression de la tâche
+        console.log('Deleting task:', task);
     };
     __decorate([
         core_1.Input()

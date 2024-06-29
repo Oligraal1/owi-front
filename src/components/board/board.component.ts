@@ -21,6 +21,7 @@ export class BoardComponent {
   projectId:any = 0;
   projectName!:string;
   listingId!:number;
+  connectedTo: string[] = [];
 
   constructor(private api: FetcherService,private route: ActivatedRoute) {}
 
@@ -76,26 +77,21 @@ export class BoardComponent {
   }
 
   getConnectedToList(currentListingId: number): string[] {
-  return this.listings
-    .filter(l => l.id !== currentListingId) // Exclure la colonne actuelle
-    .map(l => l.id.toString());
-}
+    return this.listings
+      .filter(l => l.id != currentListingId)
+      .map(l => l.id.toString());
+  }
 
-   drop(event: CdkDragDrop<any[]>, id: number) {
-    console.log(event)
+   drop(event: CdkDragDrop<any[]>, listingId: number) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-      console.log('ko')
     } else {
       const taskId = event.previousContainer.data[event.previousIndex].id;
-    const sourceListingId = this.listings.find(listing => listing.tasks === event.previousContainer.data)?.id;
-      // const taskId = event.previousContainer.data[event.previousIndex].id;
-      id = this.listingId;
       transferArrayItem(event.previousContainer.data,
                         event.container.data,
                         event.previousIndex,
                         event.currentIndex);
-      this.api.updateTask(taskId, {listingId: id}).subscribe(
+      this.api.updateTask(taskId, { listingId }).subscribe(
         () => {
           console.log('Task column updated successfully');
         },
