@@ -1,15 +1,19 @@
 .nav-container{
-    margin: 20px;
-    background-color: grey;
+    margin: 5px;
+}
+
+.project-name{
+  display: flex;
+}
+
+.project-menu{
+  display: flex;
 }
 
 .project-item {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     margin-top: 0.5rem;
   }
 
-  .project-item button {
-    margin-left: 1rem;
-  }

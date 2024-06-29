@@ -3,41 +3,46 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FetcherService } from '../../services/fetcher.service';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-nav',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './nav.component.html',
-  styleUrl: './nav.component.scss'
+  styleUrls: ['./nav.component.scss']
 })
 export class NavComponent implements OnInit {
   projects: any = [];
-  currentProjectId = 0;
+  currentProjectId: number | null = null;
   newProjectName: string = '';
-  constructor(public api: FetcherService, private router: Router) {}
+  showForm: boolean = false;
+  selectedProject: any = { name: '', description: '', updatedat: '', deadline: '' };
+
+  constructor(public api: FetcherService, private router: Router, private modalService: NgbModal) {}
 
   ngOnInit(): void {
-    this.api.getProjects().subscribe((data:any) => {
-      console.log(data);
+    this.api.getProjects().subscribe((data: any) => {
       this.projects = data;
-    })
+    });
   }
 
-  public getid (id:number){
-
+  public getid(id: number): void {
     this.currentProjectId = id;
-   console.log(this.currentProjectId);
-   this.router.navigate(['/Board', id]);
+    console.log(this.currentProjectId);
+    this.router.navigate(['/Board', id]);
   }
 
-  toCreateProject() {
+  toggleForm(): void {
+    this.showForm = !this.showForm;
+  }
+
+  toCreateProject(): void {
     const newProject = { name: this.newProjectName };
-    
     this.api.createProject(newProject).subscribe(
       () => {
         console.log('Nouveau projet créé avec succès');
-        this.refreshProjects(); 
+        this.refreshProjects();
       },
       (error) => {
         console.error('Erreur lors de la création du projet', error);
@@ -45,8 +50,12 @@ export class NavComponent implements OnInit {
     );
   }
 
-  deleteProject(id: number) {
-    if (confirm('Êtes-vous sûr de vouloir supprimer ce projet ?')) {
+  toggleButtons(projectId: number): void {
+    this.currentProjectId = this.currentProjectId === projectId ? null : projectId;
+  }
+
+  deleteProject(id: number): void {
+    if (confirm('Êtes-vous sûr de vouloir supprimer le projet ?')) {
       this.api.deleteProject(id).subscribe(
         () => {
           console.log('Projet supprimé avec succès');
@@ -59,7 +68,30 @@ export class NavComponent implements OnInit {
     }
   }
 
-  private refreshProjects() {
+  openEditModal(content: any, project: any): void {
+    this.selectedProject = { ...project };
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+  }
+
+  closeEditModal(): void {
+    this.modalService.dismissAll();
+  }
+
+  editProject(form: any): void {
+    this.selectedProject.updatedat = new Date();
+    this.api.updateProject(this.selectedProject.id, this.selectedProject).subscribe(
+      () => {
+        console.log('Projet mis à jour avec succès');
+        this.refreshProjects();
+        this.closeEditModal();
+      },
+      (error) => {
+        console.error('Erreur lors de la mise à jour du projet', error);
+      }
+    );
+  }
+
+  private refreshProjects(): void {
     this.api.getProjects().subscribe((data: any) => {
       this.projects = data;
     });
