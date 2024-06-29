@@ -31,12 +31,13 @@ export class NavComponent implements OnInit {
    this.router.navigate(['/Board', id]);
   }
 
-  toCreateProject(){
-    const newProject = {name: this.newProjectName};
+  toCreateProject() {
+    const newProject = { name: this.newProjectName };
     
     this.api.createProject(newProject).subscribe(
       () => {
         console.log('Nouveau projet créé avec succès');
+        this.refreshProjects(); 
       },
       (error) => {
         console.error('Erreur lors de la création du projet', error);
@@ -44,4 +45,23 @@ export class NavComponent implements OnInit {
     );
   }
 
+  deleteProject(id: number) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer ce projet ?')) {
+      this.api.deleteProject(id).subscribe(
+        () => {
+          console.log('Projet supprimé avec succès');
+          this.refreshProjects();
+        },
+        (error) => {
+          console.error('Erreur lors de la suppression du projet', error);
+        }
+      );
+    }
+  }
+
+  private refreshProjects() {
+    this.api.getProjects().subscribe((data: any) => {
+      this.projects = data;
+    });
+  }
 }

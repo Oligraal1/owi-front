@@ -1,11 +1,13 @@
 <nav>
-    <p>Menu</p>
     <form (ngSubmit)="toCreateProject()">
-    Entrez le nom du nouveau projet :
+    Nom du nouveau projet :
     <input type="text" name="newProjectName" [(ngModel)]="newProjectName" required>
     <button class="btn btn-primary" type="submit">Valider</button>
     </form>
-    <div *ngFor="let project of this.projects">
-        <div (click)="getid(project.id)">{{project.name}} <button class="btn btn-primary">...</button></div>
+    <div *ngFor="let project of this.projects" class="project-item">
+        <div (click)="getid(project.id)">{{project.name}}
+            <button class="btn btn-primary"><span class="fas fa-bars"></span></button>
+            <button class="btn btn-danger" (click)="deleteProject(project.id)">Supprimer</button>
+        </div>
     </div>
 </nav>
