@@ -63,5 +63,9 @@ export class FetcherService {
     return this.http.put<any>(`${this.apiUrl}/task/${id}`, task);
   }
 
+  deleteTask(id: number) {
+    return this.http.delete<any>(`${this.apiUrl}/task/${id}`);
+  }
+
   //COMMENTS
 }

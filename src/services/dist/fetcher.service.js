@@ -55,6 +55,9 @@ var FetcherService = /** @class */ (function () {
     FetcherService.prototype.updateTask = function (id, task) {
         return this.http.put(this.apiUrl + "/task/" + id, task);
     };
+    FetcherService.prototype.deleteTask = function (id) {
+        return this.http["delete"](this.apiUrl + "/task/" + id);
+    };
     FetcherService = __decorate([
         core_1.Injectable({
             providedIn: 'root'

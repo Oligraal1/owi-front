@@ -6,18 +6,18 @@
   [cdkDropListConnectedTo]="connectedTo">
   <div *ngFor="let task of tasks" cdkDrag>
     <div class="task" [style.background-color]="task.tag">
-      <div>{{ task.name }}</div>
-      <div class="dropdown" [class.show]="task.showDropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button"
-          (click)="toggleDropdown(task)">
-          <span>&#8226;&#8226;&#8226;</span>
-        </button>
-        <div class="dropdown-menu" [class.show]="task.showDropdown">
-          <a class="dropdown-item" (click)="editTask(task)">Éditer</a>
-          <a class="dropdown-item"
-            (click)="deleteTask(task)">Supprimer</a>
-        </div>
+      {{ task.name }}
+      <button (click)="toggleDropdown(task)">...</button>
+      <div *ngIf="task.showDropdown" class="dropdown">
+        <button (click)="editTask(task)">Éditer</button>
+        <button (click)="deleteTask(task.id)">Supprimer</button>
       </div>
     </div>
   </div>
 </div>
+<app-task-form
+  *ngIf="editingTask"
+  [task]="editingTask"
+  (taskUpdated)="updateTask($event)"
+  (cancelEdit)="cancelEdit()">
+</app-task-form>
