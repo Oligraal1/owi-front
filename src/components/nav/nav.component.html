@@ -11,8 +11,8 @@
     </form>
     <!-- boucle d'affichage des projets et du menu des options -->
     <div *ngFor="let project of this.projects">
-      <div class="project-item">
-        <span class="project-name" (click)="getid(project.id)">{{project.name}}</span>
+      <div class="project-item" (click)="getid(project.id)" [class.selected-project]="currentProjectId === project.id">
+        <span class="project-name">{{project.name}}</span>
         <button class="btn btn-primary project-menu" (click)="toggleButtons(project.id)">
           <span class="fas fa-bars"></span>
         </button>

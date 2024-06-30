@@ -43,6 +43,7 @@ export class NavComponent implements OnInit {
       () => {
         console.log('Nouveau projet créé avec succès');
         this.refreshProjects();
+        this.newProjectName = ''; 
       },
       (error) => {
         console.error('Erreur lors de la création du projet', error);
