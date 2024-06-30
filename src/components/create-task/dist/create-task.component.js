@@ -25,13 +25,21 @@ var CreateTaskComponent = /** @class */ (function () {
             listingId: [this.listingId],
             deadline: ['']
         });
-        console.log(this.taskForm);
-        console.log(1000, this.listingId);
+        console.log('TaskForm Value', this.taskForm.value);
+        console.log("listingId from CreateTask", this.listingId);
     };
     CreateTaskComponent.prototype.onSubmit = function () {
         var _this = this;
         if (this.taskForm.valid) {
-            var newTask = this.taskForm.value;
+            var newTask = {
+                name: this.taskForm.value.name,
+                description: this.taskForm.value.description,
+                tag: this.taskForm.value.tag,
+                listingId: this.listingId,
+                deadline: this.taskForm.value.deadline,
+                showDropdown: false
+            };
+            console.log("newTask", newTask);
             this.api.createTask(newTask).subscribe(function () {
                 console.log('Task created successfully');
                 _this.taskForm.reset(); // Réinitialiser le formulaire après la soumission

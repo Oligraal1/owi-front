@@ -1,23 +1,50 @@
-<h2>{{ title }}</h2>
-<div
-  class="tasks"
-  cdkDropList [cdkDropListData]="tasks"
-  (cdkDropListDropped)="drop($event, listingId)"
-  [cdkDropListConnectedTo]="connectedTo">
-  <div *ngFor="let task of tasks" cdkDrag>
-    <div class="task" [style.background-color]="task.tag">
-      {{ task.name }}
-      <button (click)="toggleDropdown(task)">...</button>
-      <div *ngIf="task.showDropdown" class="dropdown">
-        <button (click)="editTask(task)">Éditer</button>
-        <button (click)="deleteTask(task.id)">Supprimer</button>
-      </div>
+
+
+<div *ngIf="!showCardTask">
+
+  <div class="title-container d-flex align-items-center"
+    *ngIf="!showListingForm">
+    <h2 class="flex-grow-1">{{ title }}</h2>
+    <div class="dropdown">
+      <button class="btn btn-primary-outline dropdown-toggle" type="button"
+        id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+        ...
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <li><a class="dropdown-item" (click)="editListing()">Éditer <i class="fa-regular fa-pen-to-square"></i></a></li>
+        <li><a class="dropdown-item"
+            (click)="deleteListing(this.listingId)">Supprimer <i class="fa-solid fa-trash"></i></a></li>
+        <li><a class="dropdown-item" (click)="createTask()">Ajouter une nouvelle
+            tâche <i class="fa-regular fa-plus"></i></a></li>
+      </ul>
     </div>
   </div>
+
+  <app-listing-form
+    *ngIf="showListingForm"
+    [listingId]="listingId"
+    [projectId]="projectId"
+    (listingUpdated)="onListingUpdated()"
+    >
+  </app-listing-form>
+
+  <app-task-board
+    *ngIf="!showTaskForm"
+    [tasks]="tasks"
+    [listingId]="listingId"
+    (loadTasks)="loadTasksByListing(listingId)"
+    [connectedTo]="connectedTo"
+    [showCardTask]="showCardTask"
+    [showTaskForm]="showTaskForm">
+  </app-task-board>
+
+  <app-create-task
+    *ngIf="showTaskCreate"
+    [listingId]="listingId"
+    [showTaskCreate]="showTaskCreate">
+  </app-create-task>
+
 </div>
-<app-task-form
-  *ngIf="editingTask"
-  [task]="editingTask"
-  (taskUpdated)="updateTask($event)"
-  (cancelEdit)="cancelEdit()">
-</app-task-form>
+<div *ngIf="showCardTask">
+  <app-task></app-task>
+</div>

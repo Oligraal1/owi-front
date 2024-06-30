@@ -32,7 +32,7 @@ var BoardComponent = /** @class */ (function () {
         // Charge les colonnes existantes depuis l'API
         this.loadListings();
         console.log(2000, this.listings);
-        console.log(this.listingId);
+        console.log("this.listingId", this.listingId);
     };
     BoardComponent.prototype.loadProjectName = function (id) {
         var _this = this;

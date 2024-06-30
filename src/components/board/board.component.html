@@ -13,7 +13,10 @@
       cdkDropList
       (cdkDropListDropped)="drop($event, listing.id)"
       [cdkDropListData]="listing.tasks"
-      [connectedTo]="getConnectedToList(listing.id)">
+      [connectedTo]="getConnectedToList(listing.id)"
+      (loadListings) = "this.loadListings()"
+      [projectId]= "this.projectId"
+      >
     </app-column-board>
   </div>
 

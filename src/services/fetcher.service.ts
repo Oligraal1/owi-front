@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { Listing } from "../components/models/listing.model";
 
 @Injectable({
     providedIn: 'root'
@@ -38,11 +39,15 @@ export class FetcherService {
     return this.http.get<any[]>(`${this.apiUrl}/listing/${projectId}`);
   }
 
+    getListingById(id: number): Observable<any> {
+      return this.http.get<any>(`${this.apiUrl}/listing/${id}`);
+    }
+
   createListing(listing: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/listing`, listing);
   }
 
-  updateListing(id: number, listing: any): Observable<any> {
+  updateListing(id: number, listing: Listing): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/listing/${id}`, listing);
   }
 

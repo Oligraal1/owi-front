@@ -12,14 +12,14 @@ import { CommonModule } from '@angular/common';
   styleUrl: './task-form.component.scss'
 })
 export class TaskFormComponent {
-@Input() task: Task | null = null;
+  @Input() task: Task | null = null;
   @Output() taskUpdated = new EventEmitter<Task>();
   @Output() cancelEdit = new EventEmitter<void>();
 
   constructor(private api: FetcherService) {}
 
   onSubmit() {
-    if (this.task) {
+    if (this.task && this.task?.id) {
       this.api.updateTask(this.task.id, this.task).subscribe(
         updatedTask => {
           this.taskUpdated.emit(updatedTask);

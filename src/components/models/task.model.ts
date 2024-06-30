@@ -1,6 +1,6 @@
 export interface Task {
-  showDropdown: boolean;
-  id: number;
+  showDropdown?: boolean;
+  id?: number;
   name: string;
   description?: string;
   createdAt?: Date;

@@ -19,7 +19,8 @@ var TaskFormComponent = /** @class */ (function () {
     }
     TaskFormComponent.prototype.onSubmit = function () {
         var _this = this;
-        if (this.task) {
+        var _a;
+        if (this.task && ((_a = this.task) === null || _a === void 0 ? void 0 : _a.id)) {
             this.api.updateTask(this.task.id, this.task).subscribe(function (updatedTask) {
                 _this.taskUpdated.emit(updatedTask);
             }, function (error) {

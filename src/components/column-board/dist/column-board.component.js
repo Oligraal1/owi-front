@@ -23,18 +23,25 @@ var common_1 = require("@angular/common");
 var drag_drop_1 = require("@angular/cdk/drag-drop");
 var create_task_component_1 = require("../create-task/create-task.component");
 var task_form_component_1 = require("../task-form/task-form.component");
+var task_component_1 = require("../task/task.component");
+var dialog_1 = require("@angular/material/dialog");
+var button_1 = require("@angular/material/button");
+var confirm_delete_dialog_component_1 = require("../confirm-delete-dialog/confirm-delete-dialog.component");
 var ColumnBoardComponent = /** @class */ (function () {
-    function ColumnBoardComponent(api) {
+    function ColumnBoardComponent(api, dialog) {
         this.api = api;
+        this.dialog = dialog;
         this.title = '';
         this.connectedTo = [];
         this.tasks = [];
         this.editingTask = null;
+        this.showCardTask = false;
+        this.showTaskForm = false;
     }
     ColumnBoardComponent.prototype.ngOnInit = function () {
         this.loadTasksByListing(this.listingId);
-        console.log(5000, this.listingId);
-        console.log(2500, this.connectedTo);
+        console.log("listingId", this.listingId);
+        // console.log(2500,this.connectedTo)
     };
     ColumnBoardComponent.prototype.loadTasksByListing = function (id) {
         var _this = this;
@@ -65,26 +72,46 @@ var ColumnBoardComponent = /** @class */ (function () {
     };
     ColumnBoardComponent.prototype.editTask = function (task) {
         this.editingTask = __assign({}, task);
+        this.showTaskForm = true;
     };
     ColumnBoardComponent.prototype.updateTask = function (updatedTask) {
         var _this = this;
-        this.api.updateTask(updatedTask.id, updatedTask).subscribe(function () {
-            _this.loadTasksByListing(_this.listingId);
-            _this.editingTask = null;
-        }, function (error) {
-            console.error('Error updating task', error);
-        });
+        if (updatedTask.id !== undefined) {
+            this.api.updateTask(updatedTask.id, updatedTask).subscribe(function () {
+                _this.loadTasksByListing(_this.listingId);
+                _this.editingTask = null;
+                _this.showTaskForm = false;
+            }, function (error) {
+                console.error('Error updating task', error);
+            });
+        }
+        else {
+            console.error('Cannot update task: id is undefined');
+        }
     };
     ColumnBoardComponent.prototype.deleteTask = function (taskId) {
         var _this = this;
-        this.api.deleteTask(taskId).subscribe(function () {
-            _this.loadTasksByListing(_this.listingId);
-        }, function (error) {
-            console.error('Error deleting task', error);
+        var dialogConfig = new dialog_1.MatDialogConfig();
+        dialogConfig.width = '600px';
+        dialogConfig.disableClose = true;
+        dialogConfig.hasBackdrop = true;
+        dialogConfig.autoFocus = false;
+        dialogConfig.position = { top: '0', left: '50%' };
+        dialogConfig.panelClass = 'dialog-centered';
+        var dialogRef = this.dialog.open(confirm_delete_dialog_component_1.ConfirmDeleteDialogComponent, dialogConfig);
+        dialogRef.afterClosed().subscribe(function (result) {
+            if (result) {
+                _this.api.deleteTask(taskId).subscribe(function () {
+                    _this.loadTasksByListing(_this.listingId);
+                }, function (error) {
+                    console.error('Error deleting task', error);
+                });
+            }
         });
     };
     ColumnBoardComponent.prototype.cancelEdit = function () {
         this.editingTask = null;
+        this.showTaskForm = false;
     };
     __decorate([
         core_1.Input()
@@ -101,7 +128,7 @@ var ColumnBoardComponent = /** @class */ (function () {
             templateUrl: './column-board.component.html',
             styleUrls: ['./column-board.component.css'],
             standalone: true,
-            imports: [common_1.CommonModule, drag_drop_1.DragDropModule, create_task_component_1.CreateTaskComponent, task_form_component_1.TaskFormComponent]
+            imports: [common_1.CommonModule, drag_drop_1.DragDropModule, create_task_component_1.CreateTaskComponent, task_form_component_1.TaskFormComponent, task_component_1.TaskComponent, dialog_1.MatDialogModule, button_1.MatButtonModule]
         })
     ], ColumnBoardComponent);
     return ColumnBoardComponent;

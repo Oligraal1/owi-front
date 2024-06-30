@@ -1,14 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
-
 /* Importing Bootstrap SCSS file. */
-@import 'bootstrap/scss/bootstrap';
-
 .container {
   width: 80%;
   margin: 50px auto;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 .dialog-centered .mat-dialog-container {
   display: flex;

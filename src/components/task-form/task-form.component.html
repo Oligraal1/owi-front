@@ -1,23 +1,23 @@
-<div *ngIf="task">
+<div *ngIf="task" class="container mt-4">
   <h3>Modifier la tâche</h3>
   <form (ngSubmit)="onSubmit()">
-    <div>
-      <label for="name">Nom :</label>
-      <input type="text" id="name" [(ngModel)]="task.name" name="name" required>
+    <div class="mb-3">
+      <label for="name" class="form-label">Nom :</label>
+      <input type="text" id="name" [(ngModel)]="task.name" name="name" class="form-control" required>
     </div>
-    <div>
-      <label for="description">Description :</label>
-      <textarea id="description" [(ngModel)]="task.description" name="description"></textarea>
+    <div class="mb-3">
+      <label for="description" class="form-label">Description :</label>
+      <textarea id="description" [(ngModel)]="task.description" name="description" class="form-control"></textarea>
     </div>
-    <div>
-      <label for="deadline">Date limite :</label>
-      <input type="date" id="deadline" [(ngModel)]="task.deadline" name="deadline">
+    <div class="mb-3">
+      <label for="deadline" class="form-label">Date limite :</label>
+      <input type="date" id="deadline" [(ngModel)]="task.deadline" name="deadline" class="form-control">
     </div>
-    <div>
-      <label for="tag">Tag :</label>
-      <input type="text" id="tag" [(ngModel)]="task.tag" name="tag">
+    <div class="mb-3">
+      <label for="tag" class="form-label">Tag :</label>
+      <input type="text" id="tag" [(ngModel)]="task.tag" name="tag" class="form-control">
     </div>
-    <button type="submit">Sauvegarder</button>
-    <button type="button" (click)="onCancel()">Annuler</button>
+    <button type="submit" class="btn btn-primary me-2">Sauvegarder</button>
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">Annuler</button>
   </form>
 </div>
