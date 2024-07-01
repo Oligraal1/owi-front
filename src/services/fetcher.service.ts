@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable, tap } from "rxjs";
 import { Listing } from "../components/models/listing.model";
 import { Project } from "../components/models/project.model";
+import { Task } from "../components/models/task.model";
 
 @Injectable({
     providedIn: 'root'
@@ -84,9 +85,9 @@ export class FetcherService {
     return this.http.delete<any>(`${this.apiUrl}/listing/${id}`);
   }
 
-  //-----------TASKS----------------------------
-  getTaskByListingId(listingId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/listing/${listingId}`);
+  //TASKS
+  getTasksByIdListing(listingId: number): Observable<any> {
+    return this.http.get<Task[]>(`${this.apiUrl}/task/listing/${listingId}`)
   }
 
   /*getTask(id: number): Observable<any> {

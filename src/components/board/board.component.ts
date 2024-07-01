@@ -40,7 +40,7 @@ export class BoardComponent {
 
     // Charge les colonnes existantes depuis l'API
     // this.loadListings(this.projectId);
-    console.log(2000,this.projectId)
+    console.log(2000,this.api.prj)
     // console.log("this.listingId",this.loadListings(this.projectId))
   }
 
