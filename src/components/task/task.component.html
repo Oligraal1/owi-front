@@ -1,14 +1,46 @@
-<div class="card" style="width: 18rem">
+<!--<div class="card" style="width: 18rem">
   <div class="card-body">
-
     <div *ngIf="task">
       <h5 class="card-title">{{ task?.Name }}</h5>
       <h6 class="card-subtitle mb-2 text-muted">{{ task?.CreatedAt }}</h6>
       <h6 class="card-subtitle mb-2 text-muted">{{ task?.ModifiedAt }}</h6>
       <p class="card-text">{{ task?.Description }}</p>
     </div>
-    
-    <app-comments></app-comments>
-  
+
+    </div>
+</div>-->
+ 
+<div class="task-list">
+  <h2>Tasks</h2>
+  <ul>
+    <li *ngFor="let task of this.tasks" (click)="selectTask(task)">
+      {{ task.name }} ({{ task.tag }})
+      <button (click)="deleteTask(task.id)">Supprimer une carte</button>
+    </li>
+  </ul>
+  <div>
+    <h3>Add Task</h3>
+    <input [(ngModel)]="newTask.name" placeholder="Task Name">
+    <input [(ngModel)]="newTask.tag" placeholder="Task Tag">
+    <button (click)="addTask()">Add Task</button>
+  </div>
+  <div *ngIf="selectedTask">
+    <h3>Edit Task</h3>
+    <input [(ngModel)]="selectedTask.name" placeholder="Task Name">
+    <input [(ngModel)]="selectedTask.tag" placeholder="Task Tag">
+    <button (click)="updateTask()">Update Task</button>
+    <h3>Comments</h3>
+    <ul>
+      <li *ngFor="let comment of selectedTask.comments">
+        {{ comment.content }} by {{ comment.user }}
+        <button (click)="deleteComment(comment.id)">Supprimer un commentaire</button>
+      </li>
+    </ul>
+    <div>
+      <h4>Add Commentaire</h4>
+      <input [(ngModel)]="newComment.content" placeholder="Commentaire Content">
+      <input [(ngModel)]="newComment.user" placeholder="Commentaire User">
+      <button (click)="addComment()">Add Commentaire</button>
+    </div>
   </div>
 </div>

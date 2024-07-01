@@ -1,22 +1,28 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Commentaire } from '../../models/comment.model';
+
 
 @Component({
-  selector: 'app-comments',
+  selector: 'app-comment',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, FormsModule],
   templateUrl: './comments.component.html',
-  styleUrl: './comments.component.scss'
+  styleUrls: ['./comments.component.scss']
 })
-export class CommentsComponent {
-  @Input()
-  tasktocomment: any;
-  
-  // monter l'info(evenement) de enfant à parent
-  /*@Output()
-  ring = new EventEmitter<any>();*/
+export class CommentComponent {
+  @Input() tasktocomment: any;
+  @Output() commentChange = new EventEmitter<Commentaire>();
 
-  //constructor(public router: Router, public http: HttpClient) { }
+  isEditing: boolean = false;
 
+  editComment(): void {
+    this.isEditing = true;
+  }
 
+  saveComment(): void {
+    this.isEditing = false;
+    this.commentChange.emit(this.tasktocomment);
+  }
 }
