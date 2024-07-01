@@ -4,6 +4,8 @@ import { FetcherService } from '../../services/fetcher.service';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { BoardComponent } from '../board/board.component';
+import { HomeComponent } from '../home/home.component';
 
 @Component({
   selector: 'app-nav',
@@ -16,6 +18,7 @@ export class NavComponent implements OnInit {
   projects: any = [];
   currentProjectId: number | null = null;
   newProjectName: string = '';
+  projectName!: string;
   showForm: boolean = false;
   showButton:  number | null  = null;
   selectedProject: any = { name: '', description: '', updatedat: '', deadline: '' };
@@ -23,14 +26,13 @@ export class NavComponent implements OnInit {
   constructor(public api: FetcherService, private router: Router, private modalService: NgbModal) {}
 
   ngOnInit(): void {
-    this.api.getProjects().subscribe((data: any) => {
-      this.projects = data;
-    });
+    this.refreshProjects();
   }
 
   public getid(id: number): void {
     this.currentProjectId = id;
     console.log(this.currentProjectId);
+    this.api.getProjectById(id).subscribe();
     this.router.navigate(['/Board', id]);
   }
 

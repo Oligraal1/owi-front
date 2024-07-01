@@ -1,6 +1,6 @@
  <div class="container">
   <div class="title">
-    <h2>Projet : {{projectName}} </h2>
+    <h2>Projet : {{this.api.prj.Name}}</h2>
     <button class="title-button btn btn-primary-outline"><a [routerLink]="['/Home']" routerLinkActive="router-link-active" >Retour</a></button>
   </div>
 
@@ -10,10 +10,9 @@
   <div class="board">
     <!-- Affichage des colonnes existantes -->
     <app-column-board
-      *ngFor="let listing of listings"
+      *ngFor="let listing of this.api.prj.Listings"
       [title]="listing.name"
       [listingId]="listing.id"
-      (loadListings) = "this.loadListings()"
       [connectedTo]="getConnectedToList(listing.id)"
       [projectId]= "this.projectId"
       >
