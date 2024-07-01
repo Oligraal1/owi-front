@@ -20,12 +20,13 @@ export class BoardComponent {
   newListingName: string = ''; // Variable pour stocker le nom de la nouvelle colonne
   isCreateListingModalOpen: boolean = false; // Variable pour gérer l'état de la modal
   projectId = 0;
+  id : string | null = "0";
   constructor(private api: FetcherService,private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      console.log("id récup de la route " + id);
+      this.id = params.get('id');
+      console.log("id récup de la route " + this.id);
     });
     // Charge les colonnes existantes depuis l'API
     // this.loadListings();
