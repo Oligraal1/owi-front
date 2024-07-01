@@ -10,7 +10,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
-  styleUrls: ['./board.component.css'],
+  styleUrls: ['./board.component.scss'],
   standalone: true,
   imports: [CommonModule, ColumnBoardComponent, DragDropModule, FormsModule, RouterLink]
 })

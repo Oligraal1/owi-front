@@ -1,12 +1,12 @@
  <div class="container">
   <div class="title">
-    <h2>Projet : {{this.api.prj.name}}</h2>
+    <h1>Projet : {{this.api.prj.name}}</h1>
     <button class="title-button btn btn-primary-outline"><a [routerLink]="['/Home']" routerLinkActive="router-link-active" >Retour</a></button>
   </div>
 
   <!-- Bouton pour ouvrir la modal de création -->
-  <button type="button" class="btn btn-primary mt-3"
-    (click)="openCreateListingModal()">Créer une nouvelle liste</button>
+  <button type="button" class="btn btn-success create"
+    (click)="openCreateListingModal()">+ Nouvelle liste</button>
   <div class="board">
     <!-- Affichage des colonnes existantes -->
     <app-column-board

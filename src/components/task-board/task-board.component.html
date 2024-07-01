@@ -18,10 +18,10 @@
         id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" *ngIf="task.id !== undefined">
-        <li><a class="dropdown-item" (click)="editTask(task)">Éditer <i class="fa-regular fa-pen-to-square"></i></a></li>
-        <li><a class="dropdown-item"
-            (click)="deleteTask(task.id)">Supprimer <i class="fa-solid fa-trash"></i></a></li>
-        <li><a class="dropdown-item" [routerLink]="['/Task', task.id]" routerLinkActive="router-link-active">Voir la tâche <i class="fa-regular fa-eye"></i></a></li>
+        <li><a class="dropdown-item text-primary" (click)="editTask(task)"><i class="fa-regular fa-pen-to-square"></i>  Modifier</a></li>
+        <li><a class="dropdown-item text-danger"
+            (click)="deleteTask(task.id)"><i class="fa-solid fa-trash"></i>  Supprimer</a></li>
+        <li><a class="dropdown-item text-success" [routerLink]="['/Task', task.id]" routerLinkActive="router-link-active"><i class="fa-regular fa-eye"></i>  Ouvrir la tâche</a></li>
       </ul>
     </div>
     </div>

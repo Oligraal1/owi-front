@@ -4,20 +4,17 @@
 
 app-nav{
     display: flex;
+    //fixes the nav bar to the left of the screen
     //flex:1;
     overflow: hidden;
     margin: 10px;
 }
 
-/*# sourceMappingURL=app.component.css.map */
-.container-fluid {
-}
-
-.chrisContainer{
+.container-center{
     width: 100vw;
     //height: 100vh;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    //justify-content: center;
     align-self: start;
 }

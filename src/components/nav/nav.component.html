@@ -14,7 +14,7 @@
       <div class="project-item" (click)="getid(project.id)" [class.selected-project]="currentProjectId === project.id">
         <span class="project-name">{{project.name}}</span>
         <button class="btn btn-primary project-menu" (click)="toggleButtons(project.id, $event)">
-          <span class="fas fa-bars"></span>
+          <span class="dropdown-toggle"></span>
         </button>
       </div>
       <!-- condition sur l'id pour l'affichage des boutons modifier/supprimer par projet -->

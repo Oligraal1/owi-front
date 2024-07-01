@@ -8,11 +8,11 @@
         id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <li><a class="dropdown-item" (click)="editListing()">Éditer <i class="fa-regular fa-pen-to-square"></i></a></li>
-        <li><a class="dropdown-item"
-            (click)="deleteListing(this.listingId)">Supprimer <i class="fa-solid fa-trash"></i></a></li>
-        <li><a class="dropdown-item" (click)="createTask()">Ajouter une nouvelle
-            tâche <i class="fa-regular fa-plus"></i></a></li>
+        <li><a class="dropdown-item text-primary" (click)="editListing()"><i class="fa-regular fa-pen-to-square"></i>  Modifier</a></li>
+        <li><a class="dropdown-item text-danger"
+          (click)="deleteListing(this.listingId)"><i class="fa-solid fa-trash"></i>  Supprimer</a></li>
+        <li><a class="dropdown-item text-success" (click)="createTask()"><i class="fa-regular fa-plus"></i>  Nouvelle
+          tâche</a></li>
       </ul>
     </div>
   </div>
