@@ -11,7 +11,8 @@ import { HomeComponent } from '../home/home.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet , HeaderComponent, FooterComponent, NavComponent, TaskComponent, BoardComponent, HomeComponent],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent, NavComponent,
+    TaskComponent, BoardComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
