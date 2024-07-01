@@ -17,8 +17,10 @@ export class CreateTaskComponent implements OnInit {
   taskForm!: FormGroup;
   @Input() listingId!: number;
   @Input() showTaskCreate: boolean = false;
+  @Input() projectId!: number;
   @Output() loadTasks: EventEmitter<string> = new EventEmitter<string>();
   @Output() cancelEdit = new EventEmitter<void>();
+  isFormVisible: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -48,11 +50,10 @@ export class CreateTaskComponent implements OnInit {
       deadline: this.taskForm.value.deadline,
     };
     console.log("newTask", newTask)
-      this.api.createTask(newTask).subscribe(
+      this.api.createTask(newTask, this.projectId).subscribe(
         () => {
           console.log('Task created successfully');
           this.taskForm.reset();
-          this.loadTasks.emit();
         },
         error => {
           console.error('Error creating task', error);
@@ -72,5 +73,12 @@ export class CreateTaskComponent implements OnInit {
   }
   onCancel() {
     this.cancelEdit.emit();
+  }
+
+  closeForm(): void {
+    // Logic to close the form or reset the form state
+    this.isFormVisible = false;
+    this.taskForm.reset(); // Resets the form
+    console.log('Form closed');
   }
 }

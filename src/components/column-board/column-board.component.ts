@@ -109,9 +109,9 @@ export class ColumnBoardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.api.deleteListing(this.listingId).subscribe(
+        this.api.deleteListing(this.listingId, this.projectId).subscribe(
           () => {
-            this.loadListings.emit();
+            console.log("Liste deleted")
           },
           error => {
             console.error('Error deleting listing', error);
@@ -121,9 +121,9 @@ export class ColumnBoardComponent implements OnInit {
     });
   }
 
-  onListingUpdated() {
-    this.loadListings;
-  }
+  // onListingUpdated() {
+  //   this.loadListings;
+  // }
 
 
   editTask(task: Task) {

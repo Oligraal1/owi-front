@@ -1,5 +1,6 @@
-<div class="container mt-4 createTaskModal">
+<div class="container mt-4 createTaskModal" *ngIf="isFormVisible">
   <h3>Créer une tâche</h3>
+  <button type="button" class="close-btn" (click)="closeForm()"><i class="fas fa-times"></i></button>
   <form (ngSubmit)="onSubmit()" [formGroup]="taskForm">
     <div class="mb-3">
       <label for="name" class="form-label">Nom :</label>

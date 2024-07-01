@@ -19,6 +19,7 @@ export class ListingFormComponent implements OnInit {
 
   listing!: Listing;
   listingForm!: FormGroup;
+  isFormVisible: boolean = true;
 
   constructor(
     private fb: FormBuilder,
@@ -48,11 +49,19 @@ export class ListingFormComponent implements OnInit {
     if (this.listingForm.valid && this.listingId !== undefined) {
     const updatedListing = { ...this.listingForm.value, id: this.listingId };
     console.log('Updated Listing:', updatedListing);
-    this.api.updateListing(this.listingId, updatedListing).subscribe(() => {
-      this.listingUpdated.emit();
+    this.api.updateListing(this.listingId, updatedListing, this.projectId).subscribe(() => {
+      console.log("Liste mise à jour");
+      this.listingForm.reset();
     }, error => {
       console.error('Error updating listing', error);
     });
   }
+  }
+
+  closeForm(): void {
+    // Logic to close the form or reset the form state
+    this.isFormVisible = false;
+    this.listingForm.reset(); // Resets the form
+    console.log('Form closed');
   }
 }

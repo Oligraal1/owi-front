@@ -2,17 +2,17 @@ import { Listing } from "./listing.model";
 
 export interface Project
 {
-  Id? : number;
+  id? : number;
 
-  Name : string;
+  name : string;
 
-  Description : string;
+  description : string;
 
-  CreatedAt? : Date;
+  createdAt? : Date;
 
-  UpdatedAt? : Date;
+  updatedAt? : Date;
 
-  Deadline? : Date;
+  deadline? : Date;
 
-  Listings : Listing[];
+  listings : Listing[];
 }

@@ -62,10 +62,9 @@ export class BoardComponent {
   createListing() {
     const newListing = { name: this.newListingName, projectId: this.projectId };
 
-    this.api.createListing(newListing).subscribe(
+    this.api.createListing(newListing, this.projectId).subscribe(
       () => {
         console.log('Nouvelle liste créée avec succès');
-        // this.loadListings(this.projectId);
         this.closeCreateListingModal();
       },
       (error) => {
@@ -75,7 +74,7 @@ export class BoardComponent {
   }
 
   getConnectedToList(currentListingId: number): string[] {
-    return this.api.prj.Listings
+    return this.api.prj.listings
       .filter(l => l.id != currentListingId)
       .map(l => l.id.toString());
   }
@@ -90,7 +89,7 @@ export class BoardComponent {
                         event.container.data,
                         event.previousIndex,
                         event.currentIndex);
-      this.api.updateTask(taskId, { listingId }).subscribe(
+      this.api.updateTask(taskId, { listingId }, this.projectId).subscribe(
         () => {
           console.log('Task column updated successfully');
         },

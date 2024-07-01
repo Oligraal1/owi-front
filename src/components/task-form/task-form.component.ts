@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 })
 export class TaskFormComponent {
   @Input() task: Task | null = null;
+  @Input() projectId!: number;
   @Output() taskUpdated = new EventEmitter<Task>();
   @Output() cancelEdit = new EventEmitter<void>();
 
@@ -20,7 +21,7 @@ export class TaskFormComponent {
 
   onSubmit() {
     if (this.task && this.task?.id) {
-      this.api.updateTask(this.task.id, this.task).subscribe(
+      this.api.updateTask(this.task.id, this.task, this.projectId).subscribe(
         updatedTask => {
           this.taskUpdated.emit(updatedTask);
         },

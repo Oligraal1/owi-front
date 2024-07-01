@@ -23,6 +23,7 @@ export class TaskBoardComponent implements OnInit {
   @Input() connectedTo: string[] = [];
   @Input() showCardTask: boolean = false;
   @Input() showTaskForm: boolean = false;
+  @Input() projectId!: number;
   @Output() loadTasks = new EventEmitter<void>();
 
   editingTask: Task | null = null;
@@ -59,7 +60,7 @@ export class TaskBoardComponent implements OnInit {
         event.container.data,
         event.previousIndex,
         event.currentIndex);
-      this.api.updateTask(taskId, { listingId: id }).subscribe(
+      this.api.updateTask(taskId, { listingId: id }, this.projectId).subscribe(
         () => {
           console.log('Task column updated successfully');
         },
@@ -81,7 +82,7 @@ export class TaskBoardComponent implements OnInit {
 
   updateTask(updatedTask: Task) {
     if (updatedTask.id !== undefined) {
-      this.api.updateTask(updatedTask.id, updatedTask).subscribe(
+      this.api.updateTask(updatedTask.id, updatedTask, this.projectId).subscribe(
         () => {
           this.loadTasksByListing(this.listingId);
           this.editingTask = null;
@@ -111,7 +112,7 @@ export class TaskBoardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.api.deleteTask(taskId).subscribe(
+        this.api.deleteTask(taskId, this.projectId).subscribe(
           () => {
             this.loadTasksByListing(this.listingId);
           },

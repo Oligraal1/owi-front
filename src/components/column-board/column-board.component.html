@@ -24,7 +24,6 @@
     *ngIf="showListingForm"
     [listingId]="listingId"
     [projectId]="projectId"
-    (listingUpdated)="onListingUpdated()"
     >
   </app-listing-form>
 
@@ -35,13 +34,15 @@
     (loadTasks)="loadTasksByListing(listingId)"
     [connectedTo]="connectedTo"
     [showCardTask]="showCardTask"
-    [showTaskForm]="showTaskForm">
+    [showTaskForm]="showTaskForm"
+    [projectId]="projectId">
   </app-task-board>
 
   <app-create-task
     *ngIf="showTaskCreate"
     [listingId]="listingId"
-    [showTaskCreate]="showTaskCreate">
+    [showTaskCreate]="showTaskCreate"
+    [projectId]="projectId">
   </app-create-task>
 
 </div>
