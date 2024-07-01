@@ -7,3 +7,16 @@
   height: 100vh;
   margin: 50px auto;
 }
+
+.title-button {
+  display: block;
+}
+.title-button a {
+  text-decoration: none;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}/*# sourceMappingURL=board.component.css.map */

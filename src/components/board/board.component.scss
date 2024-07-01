@@ -7,3 +7,15 @@
   height: 100vh;
   margin: 50px auto;
 }
+
+.title-button {
+  display: block;
+  a {
+    text-decoration: none;
+  }
+}
+.title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

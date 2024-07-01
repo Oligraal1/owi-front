@@ -1,6 +1,9 @@
  <div class="container">
+  <div class="title">
+    <h2>Projet : {{projectName}} </h2>
+    <button class="title-button btn btn-primary-outline"><a [routerLink]="['/Home']" routerLinkActive="router-link-active" >Retour</a></button>
+  </div>
 
-  <h2>Projet : {{projectName}} </h2>
   <!-- Bouton pour ouvrir la modal de création -->
   <button type="button" class="btn btn-primary mt-3"
     (click)="openCreateListingModal()">Créer une nouvelle liste</button>
@@ -10,11 +13,8 @@
       *ngFor="let listing of listings"
       [title]="listing.name"
       [listingId]="listing.id"
-      cdkDropList
-      (cdkDropListDropped)="drop($event, listing.id)"
-      [cdkDropListData]="listing.tasks"
-      [connectedTo]="getConnectedToList(listing.id)"
       (loadListings) = "this.loadListings()"
+      [connectedTo]="getConnectedToList(listing.id)"
       [projectId]= "this.projectId"
       >
     </app-column-board>

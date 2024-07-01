@@ -1,10 +1,12 @@
-<div 
+<div
 *ngIf="!showTaskForm"
   class="tasks"
   cdkDropList
   [cdkDropListData]="tasks"
   (cdkDropListDropped)="drop($event, listingId)"
   [cdkDropListConnectedTo]="connectedTo">
+
+
 
   <!--<app-create-task [listingId]="listingId"></app-create-task> -->
 
@@ -18,7 +20,7 @@
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" *ngIf="task.id !== undefined">
         <li><a class="dropdown-item" (click)="editTask(task)">Éditer <i class="fa-regular fa-pen-to-square"></i></a></li>
-        <li><a class="dropdown-item" 
+        <li><a class="dropdown-item"
             (click)="deleteTask(task.id)">Supprimer <i class="fa-solid fa-trash"></i></a></li>
         <li><a class="dropdown-item" [routerLink]="['/Task', task.id]" routerLinkActive="router-link-active">Voir la tâche <i class="fa-regular fa-eye"></i></a></li>
       </ul>

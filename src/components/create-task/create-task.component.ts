@@ -30,7 +30,6 @@ export class CreateTaskComponent implements OnInit {
       name: ['', Validators.required],
       description: [''],
       tag: [''],
-      listingId: [this.listingId, Validators.required],
       deadline: ['']
     });
     console.log("listingId from CreateTask",this.listingId)
@@ -38,6 +37,8 @@ export class CreateTaskComponent implements OnInit {
 
   onSubmit(): void {
     console.log('ok', this.taskForm.valid)
+    console.log("name", this.taskForm.value.name)
+    console.log("this.listingId", this.listingId)
     if (this.taskForm.valid) {
     const newTask: Task = {
       name: this.taskForm.value.name,

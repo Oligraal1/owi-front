@@ -40,8 +40,10 @@ export class TaskBoardComponent implements OnInit {
     });
   }
 
-  drop(event: CdkDragDrop<any[]>, id: number) {
+  drop(event: CdkDragDrop<any>, id: number) {
     console.log(1000, this.connectedTo)
+    console.log("event.previousContainer.data :", event.previousContainer);
+    console.log("event.container :", event.container);
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       console.log('ok')
@@ -49,6 +51,10 @@ export class TaskBoardComponent implements OnInit {
       const taskId = event.previousContainer.data[event.previousIndex].id;
       this.listingId = id;
       console.log(1500, this.connectedTo)
+      console.log("event.previousContainer.data :", event.previousContainer.data);
+      console.log("event.container.data :", event.container.data);
+      console.log("event.previousIndex :", event.previousIndex);
+      console.log("event.currentIndex :", event.currentIndex);
       transferArrayItem(event.previousContainer.data,
         event.container.data,
         event.previousIndex,

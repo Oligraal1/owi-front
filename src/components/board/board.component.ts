@@ -5,18 +5,18 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
 import { FetcherService } from '../../services/fetcher.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.css'],
   standalone: true,
-  imports: [CommonModule, ColumnBoardComponent, DragDropModule, FormsModule]
+  imports: [CommonModule, ColumnBoardComponent, DragDropModule, FormsModule, RouterLink]
 })
 export class BoardComponent {
   listings: any[] = [];
-  newListingName: string = ''; 
+  newListingName: string = '';
   isCreateListingModalOpen: boolean = false;
   projectId:any = 0;
   projectName!:string;
@@ -45,7 +45,7 @@ export class BoardComponent {
     this.api.getListingsByProjectId(this.projectId).subscribe(
       (data) => {
         this.listings = data;
-        
+
       },
       (error) => {
         console.error('Erreur lors du chargement des listings', error);
@@ -83,6 +83,7 @@ export class BoardComponent {
   }
 
    drop(event: CdkDragDrop<any[]>, listingId: number) {
+    console.log("bonjour");
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
