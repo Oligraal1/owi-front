@@ -1,5 +1,5 @@
 export interface Listing {
-  id?: number;
+  id: number;
   name: string;
   createdAt?: Date;
   projectId: number;

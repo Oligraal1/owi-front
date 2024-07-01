@@ -1,7 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, tap } from "rxjs";
 import { Listing } from "../components/models/listing.model";
+import { Project } from "../components/models/project.model";
 
 @Injectable({
     providedIn: 'root'
@@ -13,13 +14,32 @@ export class FetcherService {
     */
    private apiUrl = "http://localhost:5291/api";
 
+
+
+  public prj : Project = {
+    Id: 0,
+    Name: "",
+    Description: "",
+    Listings: []
+  }
+
    //PROJECTS
   getProjects(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/projects`);
   }
- 
+
   getProjectById(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/projects/${id}`);
+    return this.http.get<any>(`${this.apiUrl}/projects/${id}`).pipe(
+      tap(
+        (responnse)=>{
+          console.log("res ----->", responnse);
+          this.prj = responnse;
+          console.log("prj ----->", this.prj);
+          this.getListingsByProjectId(id).subscribe();
+          console.log("prj ----->", this.prj);
+        }
+    )
+    )
   }
 
   createProject(project: any): Observable<any> {
@@ -36,7 +56,16 @@ export class FetcherService {
 
    //LISTING
    getListingsByProjectId(projectId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/listing/${projectId}`);
+    return this.http.get<Listing[]>(`${this.apiUrl}/listing/${projectId}`).pipe(
+      tap(
+        (listes)=>{
+          if (this.prj)
+          {
+            this.prj.Listings = listes;
+          }
+        }
+      )
+    )
   }
 
     getListingById(id: number): Observable<any> {

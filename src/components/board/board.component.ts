@@ -15,43 +15,13 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
   imports: [CommonModule, ColumnBoardComponent, DragDropModule, FormsModule, RouterLink]
 })
 export class BoardComponent {
-  listings: any[] = [];
   newListingName: string = '';
   isCreateListingModalOpen: boolean = false;
   projectId:any = 0;
-  projectName!:string;
-  listingId!:number;
   connectedTo: string[] = [];
+  id: string | null = "0";
 
-  constructor(private api: FetcherService,private route: ActivatedRoute) {}
-
-  ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      this.projectId = params.get('id');
-    });
-
-    this.loadProjectName(this.projectId)
-    // Charge les colonnes existantes depuis l'API
-    this.loadListings();
-    console.log(2000,this.listings)
-    console.log("this.listingId",this.listingId)
-  }
-
-  loadProjectName(id: number) {
-    this.api.getProjectById(id).subscribe(data => this.projectName = data.name)
-  }
-  loadListings() {
-    // Chargement des colonnes depuis une API
-    this.api.getListingsByProjectId(this.projectId).subscribe(
-      (data) => {
-        this.listings = data;
-
-      },
-      (error) => {
-        console.error('Erreur lors du chargement des listings', error);
-      }
-    );
-  }
+  constructor(public api: FetcherService, private route: ActivatedRoute) {}
 
   openCreateListingModal() {
     this.isCreateListingModalOpen = true;
@@ -61,13 +31,41 @@ export class BoardComponent {
     this.isCreateListingModalOpen = false;
   }
 
+  ngOnInit() {
+    console.log('route', this.id)
+    this.route.paramMap.subscribe(params => {
+      this.projectId = params.get('id');
+      this.id = params.get('id');
+    });
+
+    // Charge les colonnes existantes depuis l'API
+    // this.loadListings(this.projectId);
+    console.log(2000,this.projectId)
+    // console.log("this.listingId",this.loadListings(this.projectId))
+  }
+
+
+  // loadListings(id: number) {
+  //   // Chargement des colonnes depuis une API
+  //   this.api.getListingsByProjectId(id).subscribe(
+  //     (data) => {
+  //       this.listings = data;
+  //       console.log('DATA',data)
+  //     },
+  //     (error) => {
+  //       console.error('Erreur lors du chargement des listings', error);
+  //     }
+  //   );
+  // }
+
+
   createListing() {
     const newListing = { name: this.newListingName, projectId: this.projectId };
 
     this.api.createListing(newListing).subscribe(
       () => {
         console.log('Nouvelle liste créée avec succès');
-        this.loadListings();
+        // this.loadListings(this.projectId);
         this.closeCreateListingModal();
       },
       (error) => {
@@ -77,7 +75,7 @@ export class BoardComponent {
   }
 
   getConnectedToList(currentListingId: number): string[] {
-    return this.listings
+    return this.api.prj.Listings
       .filter(l => l.id != currentListingId)
       .map(l => l.id.toString());
   }
