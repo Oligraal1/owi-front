@@ -1,0 +1,13 @@
+<div class="container">
+  <form [formGroup]="listingForm" (ngSubmit)="updateListing()">
+    <div class="form-group">
+      <label for="name">Nom</label>
+      <input id="name" formControlName="name" class="form-control" required>
+      <div *ngIf="listingForm.get('name')?.invalid && (listingForm.get('name')?.dirty || listingForm.get('name')?.touched)" class="alert alert-danger">
+        Le nom est obligatoire.
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="listingForm.invalid">Enregistrer</button>
+  </form>
+</div>
+

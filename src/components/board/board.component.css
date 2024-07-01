@@ -1,14 +1,22 @@
 .board {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
+  flex-direction: row;
   gap: 16px;
   padding: 16px;
   background-color: #f0f0f0;
   height: 100vh;
+  margin: 50px auto;
 }
-/*# sourceMappingURL=board.component.css.map */
+
+.title-button {
+  display: block;
+}
+.title-button a {
+  text-decoration: none;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}/*# sourceMappingURL=board.component.css.map */

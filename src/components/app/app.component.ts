@@ -5,6 +5,7 @@ import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { NavComponent } from '../nav/nav.component';
 import { TaskComponent } from '../task/task.component';
+import { HomeComponent } from '../home/home.component';
 
 
 @Component({
