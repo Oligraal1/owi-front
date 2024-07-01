@@ -8,3 +8,20 @@
 body {
     font-family: 'Poppins', sans-serif;
   }
+.container {
+  width: 80%;
+  margin: 50px auto;
+}
+html, body { height: 100%; }
+body { margin: 0; }
+
+.dialog-centered .mat-dialog-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  transform: none;
+  top: 0;
+  left: 0;
+  margin: 0;
+}

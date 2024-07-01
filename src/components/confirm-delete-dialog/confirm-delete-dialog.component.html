@@ -1,0 +1,9 @@
+<h2 mat-dialog-title class='title'>Confirmation de Suppression</h2>
+<div mat-dialog-content>
+  <p class='content'>Êtes-vous sûr de vouloir supprimer cette {{itemToDelete}} ?</p>
+</div>
+<div mat-dialog-actions class="buttons">
+  <button class="btn btn-primary" mat-button (click)="onCancel()">Annuler</button>
+  <button class="btn btn-danger" mat-button color="warn" (click)="onConfirm()">Supprimer</button>
+</div>
+

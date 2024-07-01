@@ -8,7 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, BoardComponent, HomeComponent],
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss']
 })
@@ -44,7 +44,7 @@ export class NavComponent implements OnInit {
       () => {
         console.log('Nouveau projet créé avec succès');
         this.refreshProjects();
-        this.newProjectName = ''; 
+        this.newProjectName = '';
       },
       (error) => {
         console.error('Erreur lors de la création du projet', error);

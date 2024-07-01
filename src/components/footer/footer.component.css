@@ -1,0 +1,10 @@
+.footer-container {
+  box-shadow: 0 -2px 4px rgba(26, 26, 26, 0.2);
+  position: fixed;
+  bottom: 0;
+  display: block;
+  width: 100%;
+}
+.footer-container p {
+  text-align: center;
+}/*# sourceMappingURL=footer.component.css.map */
