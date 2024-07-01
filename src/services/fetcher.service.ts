@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable, tap } from "rxjs";
 import { Listing } from "../components/models/listing.model";
 import { Project } from "../components/models/project.model";
+import { Task } from "../components/models/task.model";
 
 @Injectable({
     providedIn: 'root'
@@ -86,7 +87,7 @@ export class FetcherService {
 
   //TASKS
   getTasksByIdListing(listingId: number): Observable<any> {
-    return this.http.get<any[]>(`${this.apiUrl}/task/listing/${listingId}`);
+    return this.http.get<Task[]>(`${this.apiUrl}/task/listing/${listingId}`)
   }
 
   createTask(task: any): Observable<any> {
