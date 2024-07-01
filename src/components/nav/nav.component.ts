@@ -17,6 +17,7 @@ export class NavComponent implements OnInit {
   currentProjectId: number | null = null;
   newProjectName: string = '';
   showForm: boolean = false;
+  showButton:  number | null  = null;
   selectedProject: any = { name: '', description: '', updatedat: '', deadline: '' };
 
   constructor(public api: FetcherService, private router: Router, private modalService: NgbModal) {}
@@ -51,8 +52,14 @@ export class NavComponent implements OnInit {
     );
   }
 
-  toggleButtons(projectId: number): void {
-    this.currentProjectId = this.currentProjectId === projectId ? null : projectId;
+  toggleButtons(projectId: number, event: MouseEvent): void {
+   // event.stopPropagation();
+    this.currentProjectId = projectId;
+    if (this.showButton === projectId) {
+      this.showButton = null;
+      return;
+    }
+    this.showButton = projectId;
   }
 
   deleteProject(id: number): void {
