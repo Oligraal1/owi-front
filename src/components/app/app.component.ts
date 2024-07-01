@@ -10,7 +10,8 @@ import { TaskComponent } from '../task/task.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet , HeaderComponent, FooterComponent, NavComponent, TaskComponent, BoardComponent],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent, NavComponent,
+    TaskComponent, BoardComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
