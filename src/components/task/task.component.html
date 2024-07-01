@@ -1,9 +1,36 @@
 <div class="card" style="width: 18rem;">
-    <div class="card-body">
-      <h5 class="card-title">Title Task</h5>
-      <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-      <a href="#" class="card-link">Card link</a>
-      <a href="#" class="card-link">Another link</a>
+  <div class="card-body">
+    <h5 class="card-title">{{this.task.name}}</h5>
+    <p class="card-text mb-2 text-muted">Créée le {{this.task.createdAt | date:
+      'dd/MM/yyyy'}}</p>
+    <div class="p-4 mb-2 tag" [style.background-color]="this.task.tag"></div>
+    <div class='description' *ngIf="this.task.description">
+      <h6 class="card-subtitle mb-2 text-muted">Description</h6>
+      <p class="card-text">{{this.task.description}}</p>
     </div>
+    <p class="cart-text my-2">Fin de tâche prévue le : {{this.task.deadline |
+      date: 'dd/MM/yyyy'}}</p>
+    <div>
+      <h6>Commentaires</h6>
+      <div *ngFor="let comment of comments" class="comment">
+        <p>{{ comment.content }}</p>
+        <small class="text-muted">Posté par {{ comment.user }} le {{
+          comment.createdAt | date: 'short' }}</small>
+        <button *ngIf="comment.id !== undefined"
+          (click)="deleteComment(comment.id)">Supprimer</button>
+      </div>
+
+      <form [formGroup]="commentForm" (ngSubmit)="addComment()">
+        <label for="user">Votre nom</label>
+        <input type="text" id="user" formControlName="user" required>
+
+        <label for="content">Votre commentaire</label>
+        <textarea id="content" formControlName="content"
+          placeholder="Ajouter un commentaire" required></textarea>
+
+        <button type="submit" [disabled]="commentForm.invalid">Ajouter</button>
+      </form>
+    </div>
+
   </div>
+</div>

@@ -38,9 +38,6 @@ export class CreateTaskComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log('ok', this.taskForm.valid)
-    console.log("name", this.taskForm.value.name)
-    console.log("this.listingId", this.listingId)
     if (this.taskForm.valid) {
     const newTask: Task = {
       name: this.taskForm.value.name,
@@ -48,6 +45,8 @@ export class CreateTaskComponent implements OnInit {
       tag: this.taskForm.value.tag,
       listingId: this.listingId,
       deadline: this.taskForm.value.deadline,
+      comments: [],
+  
     };
     console.log("newTask", newTask)
       this.api.createTask(newTask, this.projectId).subscribe(

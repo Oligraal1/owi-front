@@ -48,20 +48,33 @@ export class ColumnBoardComponent implements OnInit {
   @Output() loadListings = new EventEmitter<void>();
   @Output() loadTasks = new EventEmitter<void>;
 
-  constructor(private api: FetcherService, public dialog: MatDialog) { }
+  constructor(public api: FetcherService, public dialog: MatDialog) { }
 
-  ngOnInit(): void {
-    this.loadTasksByListing(this.listingId);
-    console.log("listingId", this.listingId)
-    // console.log(2500,this.connectedTo)
+   ngOnInit(): void {
+    if (this.api.prj && this.api.prj.listings) {
+      const listing = this.api.prj.listings.find(l => l.id === this.listingId);
+      if (listing) {
+        this.tasks = listing.tasks;
+      } else {
+        console.error(`Listing with ID ${this.listingId} not found`);
+      }
+    } else {
+      console.error('Listings not loaded');
+    }
   }
 
-  loadTasksByListing(id: number) {
-    this.api.getTasksByIdListing(id).subscribe(data => {
-      this.tasks = data.map((task: Task) => ({ ...task, showDropdown: false }));
-    });
+  loadTasksByListing(listingId: number): void {
+    if (this.api.prj.listings) {
+      const listing = this.api.prj.listings.find(l => l.id === listingId);
+      if (listing) {
+        this.tasks = listing.tasks;
+      } else {
+        console.error(`Listing with ID ${listingId} not found`);
+      }
+    } else {
+      console.error('Listings not loaded');
+    }
   }
-
   // drop(event: CdkDragDrop<any[]>, id: number) {
   //   console.log(1000, this.connectedTo)
   //   if (event.previousContainer === event.container) {

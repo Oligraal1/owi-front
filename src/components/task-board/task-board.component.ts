@@ -9,11 +9,13 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { TaskFormComponent } from '../task-form/task-form.component';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Listing } from '../models/listing.model';
 
 @Component({
   selector: 'app-task-board',
   standalone: true,
-  imports: [CommonModule, CreateTaskComponent, DragDropModule, TaskFormComponent, RouterLink],
+  imports: [CommonModule, CreateTaskComponent, DragDropModule, TaskFormComponent, RouterLink, ReactiveFormsModule, FormsModule],
   templateUrl: './task-board.component.html',
   styleUrl: './task-board.component.scss'
 })
@@ -27,18 +29,35 @@ export class TaskBoardComponent implements OnInit {
   @Output() loadTasks = new EventEmitter<void>();
 
   editingTask: Task | null = null;
+  isOpen: boolean = false;
+  moveTaskForm!: FormGroup;
+  listings!: any;
+  selectedListingId!: number;
+  comments: any[]= [];
 
-  constructor(private api: FetcherService, public dialog: MatDialog) { }
+  constructor(private api: FetcherService, public dialog: MatDialog, private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    // Chargez les tâches pour le listingId spécifié
     this.loadTasksByListing(this.listingId);
   }
 
-  loadTasksByListing(id: number) {
-    this.api.getTasksByIdListing(id).subscribe(data => {
-      this.tasks = data.map((task: Task) => ({ ...task, showDropdown: false }));
-    });
+  loadTasksByListing(listingId: number): void {
+    if (this.api.prj.listings) {
+      const listing = this.api.prj.listings.find(l => l.id === listingId);
+      if (listing) {
+        this.tasks = listing.tasks;
+       this.tasks.forEach(task => {
+        if(task.comments) {
+          this.comments = task.comments
+        }
+       });
+        
+      } else {
+        console.error(`Listing with ID ${listingId} not found`);
+      }
+    } else {
+      console.error('Listings not loaded');
+    }
   }
 
   drop(event: CdkDragDrop<any>, id: number) {
@@ -128,4 +147,30 @@ export class TaskBoardComponent implements OnInit {
     this.editingTask = null;
     this.showTaskForm = false;
   }
+
+openSelectListing() {
+  this.isOpen = true;
+}
+  moveTask(task: Task) {
+  if (this.selectedListingId && task.listingId !== this.selectedListingId) {
+    const updatedTask: Task = {
+      ...task,
+      listingId: this.selectedListingId
+    };
+    const updateTaskId: any =updatedTask.id;
+  if(updatedTask) {
+    this.api.updateTask(updateTaskId, updatedTask, this.projectId).subscribe(
+      () => {
+        console.log('Task moved successfully');
+        // Mettez à jour la liste des tâches après le déplacement si nécessaire
+        // this.loadTasks(); // Assurez-vous que cette fonction existe pour recharger les tâches
+      },
+      error => {
+        console.error('Error moving task', error);
+      }
+    );
+  }
+  }
+}
+
 }

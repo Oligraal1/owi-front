@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ColumnBoardComponent } from '../column-board/column-board.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -14,7 +14,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
   standalone: true,
   imports: [CommonModule, ColumnBoardComponent, DragDropModule, FormsModule, RouterLink]
 })
-export class BoardComponent {
+export class BoardComponent implements OnInit {
   newListingName: string = '';
   isCreateListingModalOpen: boolean = false;
   projectId:any = 0;
@@ -40,7 +40,6 @@ export class BoardComponent {
 
     // Charge les colonnes existantes depuis l'API
     // this.loadListings(this.projectId);
-    console.log(2000,this.api.prj)
     // console.log("this.listingId",this.loadListings(this.projectId))
   }
 
