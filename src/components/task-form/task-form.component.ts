@@ -16,6 +16,7 @@ export class TaskFormComponent {
   @Input() projectId!: number;
   @Output() taskUpdated = new EventEmitter<Task>();
   @Output() cancelEdit = new EventEmitter<void>();
+  isFormVisible: boolean = false;
 
   constructor(private api: FetcherService) {}
 
@@ -34,5 +35,11 @@ export class TaskFormComponent {
 
   onCancel() {
     this.cancelEdit.emit();
+  }
+
+  closeForm(): void {
+    // Logic to close the form or reset the form state
+    this.isFormVisible = false;
+    console.log('Form closed');
   }
 }

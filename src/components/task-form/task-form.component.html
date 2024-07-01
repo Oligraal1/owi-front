@@ -1,4 +1,5 @@
 <div *ngIf="task" class="container mt-4">
+  <button *ngIf="isFormVisible" type="button" class="close-btn" (click)="closeForm()"><i class="fas fa-times"></i></button>
   <h3>Modifier la tâche</h3>
   <form (ngSubmit)="onSubmit()">
     <div class="mb-3">
