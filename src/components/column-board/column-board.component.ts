@@ -18,7 +18,7 @@ import { TaskBoardComponent } from '../task-board/task-board.component';
 @Component({
   selector: 'app-column-board',
   templateUrl: './column-board.component.html',
-  styleUrls: ['./column-board.component.css'],
+  styleUrls: ['./column-board.component.scss'],
   standalone: true,
   imports: [
     CommonModule,
