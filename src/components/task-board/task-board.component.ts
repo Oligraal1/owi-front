@@ -35,7 +35,7 @@ export class TaskBoardComponent implements OnInit {
   }
 
   loadTasksByListing(id: number) {
-    this.api.getTasksByIdListing(id).subscribe(data => {
+    this.api.getTaskByListingId(id).subscribe((data: Task[]) => {
       this.tasks = data.map((task: Task) => ({ ...task, showDropdown: false }));
     });
   }
