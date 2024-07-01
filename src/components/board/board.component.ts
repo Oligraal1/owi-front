@@ -3,46 +3,25 @@ import { CommonModule } from '@angular/common';
 import { ColumnBoardComponent } from '../column-board/column-board.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { HttpClient, HttpClientModule, } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { FetcherService } from '../../services/fetcher.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.css'],
   standalone: true,
-  imports: [CommonModule, ColumnBoardComponent, DragDropModule, FormsModule, HttpClientModule]
+  imports: [CommonModule, ColumnBoardComponent, DragDropModule, FormsModule, RouterLink]
 })
 export class BoardComponent {
-  listings: any[] = []; // Array pour stocker les colonnes existantes
-  newListingName: string = ''; // Variable pour stocker le nom de la nouvelle colonne
-  isCreateListingModalOpen: boolean = false; // Variable pour gérer l'état de la modal
-  projectId = 0;
-  constructor(private api: FetcherService,private route: ActivatedRoute) {}
+  newListingName: string = '';
+  isCreateListingModalOpen: boolean = false;
+  projectId:any = 0;
+  connectedTo: string[] = [];
+  id: string | null = "0";
 
-  ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      console.log("id récup de la route " + id);
-    });
-    // Charge les colonnes existantes depuis l'API
-    // this.loadListings();
-  }
-
-
-  loadListings() {
-    // Chargement des colonnes depuis une API
-    this.api.getListingsByProjectId(this.projectId).subscribe(
-      (data) => {
-        this.listings = data;
-      },
-      (error) => {
-        console.error('Erreur lors du chargement des listings', error);
-      }
-    );
-  }
+  constructor(public api: FetcherService, private route: ActivatedRoute) {}
 
   openCreateListingModal() {
     this.isCreateListingModalOpen = true;
@@ -52,15 +31,41 @@ export class BoardComponent {
     this.isCreateListingModalOpen = false;
   }
 
+  ngOnInit() {
+    console.log('route', this.id)
+    this.route.paramMap.subscribe(params => {
+      this.projectId = params.get('id');
+      this.id = params.get('id');
+    });
+
+    // Charge les colonnes existantes depuis l'API
+    // this.loadListings(this.projectId);
+    console.log(2000,this.projectId)
+    // console.log("this.listingId",this.loadListings(this.projectId))
+  }
+
+
+  // loadListings(id: number) {
+  //   // Chargement des colonnes depuis une API
+  //   this.api.getListingsByProjectId(id).subscribe(
+  //     (data) => {
+  //       this.listings = data;
+  //       console.log('DATA',data)
+  //     },
+  //     (error) => {
+  //       console.error('Erreur lors du chargement des listings', error);
+  //     }
+  //   );
+  // }
+
+
   createListing() {
-    const newListing = { name: this.newListingName, projetcId: this.projectId };
+    const newListing = { name: this.newListingName, projectId: this.projectId };
 
     this.api.createListing(newListing).subscribe(
       () => {
         console.log('Nouvelle liste créée avec succès');
-        // Rechargez les colonnes après la création
-        this.loadListings();
-        // Fermez la modal après la création
+        // this.loadListings(this.projectId);
         this.closeCreateListingModal();
       },
       (error) => {
@@ -68,14 +73,31 @@ export class BoardComponent {
       }
     );
   }
-   drop(event: CdkDragDrop<any[]>) {
+
+  getConnectedToList(currentListingId: number): string[] {
+    return this.api.prj.Listings
+      .filter(l => l.id != currentListingId)
+      .map(l => l.id.toString());
+  }
+
+   drop(event: CdkDragDrop<any[]>, listingId: number) {
+    console.log("bonjour");
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
+      const taskId = event.previousContainer.data[event.previousIndex].id;
       transferArrayItem(event.previousContainer.data,
                         event.container.data,
                         event.previousIndex,
                         event.currentIndex);
+      this.api.updateTask(taskId, { listingId }).subscribe(
+        () => {
+          console.log('Task column updated successfully');
+        },
+        error => {
+          console.error('Error updating task column', error);
+        }
+      );
     }
   }
 }

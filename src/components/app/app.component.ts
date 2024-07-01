@@ -7,6 +7,7 @@ import { NavComponent } from '../nav/nav.component';
 import { TaskComponent } from '../task/task.component';
 import { CommentComponent } from '../comments/comments.component';
 
+import { HomeComponent } from '../home/home.component';
 
 
 @Component({

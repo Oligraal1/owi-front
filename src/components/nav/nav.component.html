@@ -1,11 +1,53 @@
-<nav>
-    <p>Menu</p>
-    <form (ngSubmit)="toCreateProject()">
-    Entrez le nom du nouveau projet :
-    <input type="text" name="newProjectName" [(ngModel)]="newProjectName" required>
-    <button class="btn btn-primary" type="submit">Valider</button>
+<nav class="nav-container">
+    <!-- bouton pour afficher et cacher le form d'ajout de projet -->
+    <button class="btn btn-success" (click)="toggleForm()">
+      <span *ngIf="showForm">- réduire</span>
+      <span *ngIf="!showForm">+ Nouveau projet</span>
+    </button>
+    <form *ngIf="showForm" (ngSubmit)="toCreateProject()">
+      Nom du nouveau projet :
+      <input type="text" name="newProjectName" [(ngModel)]="newProjectName" required>
+      <button class="btn btn-primary" type="submit">Valider</button>
     </form>
+    <!-- boucle d'affichage des projets et du menu des options -->
     <div *ngFor="let project of this.projects">
-        <div (click)="getid(project.id)">{{project.name}} <button class="btn btn-primary">...</button></div>
+      <div class="project-item" (click)="getid(project.id)" [class.selected-project]="currentProjectId === project.id">
+        <span class="project-name">{{project.name}}</span>
+        <button class="btn btn-primary project-menu" (click)="toggleButtons(project.id, $event)">
+          <span class="fas fa-bars"></span>
+        </button>
+      </div>
+      <!-- condition sur l'id pour l'affichage des boutons modifier/supprimer par projet -->
+      <div class="project-buttons"*ngIf="showButton === project.id">
+        <button class="btn btn-secondary" (click)="openEditModal(editProjectModal, project)">Modifier</button>
+        <button class="btn btn-danger" (click)="deleteProject(project.id)">Supprimer</button>
+      </div>
     </div>
-</nav>
+
+    <!-- Modal pour éditer le projet -->
+    <ng-template #editProjectModal let-modal>
+      <!-- titre du modal -->
+      <div class="modal-header">
+        <h5 class="modal-title">Modifier le projet</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeEditModal()"></button>
+      </div>
+      <!-- contenu du modal -->
+      <div class="modal-body">
+        <form #editProjectForm="ngForm" (ngSubmit)="editProject(editProjectForm)">
+          <div class="mb-3">
+            <label for="editProjectName" class="form-label">Nom du projet</label>
+            <input type="text" id="editProjectName" name="name" [(ngModel)]="selectedProject.name" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="editProjectDescription" class="form-label">Description</label>
+            <textarea id="editProjectDescription" name="description" [(ngModel)]="selectedProject.description" class="form-control" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="editProjectDeadline" class="form-label">Deadline</label>
+            <input type="date" id="editProjectDeadline" name="deadline" [(ngModel)]="selectedProject.deadline" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Sauvegarder</button>
+        </form>
+      </div>
+    </ng-template>
+  </nav>
