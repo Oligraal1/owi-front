@@ -12,7 +12,7 @@ export class FetcherService {
     constructor(public http: HttpClient) {
     }
 
-    private apiUrl = "https://owi-back.azurewebsites.net"
+    private apiUrl = "https://owi-back.azurewebsites.net/api"
 
   //  private apiUrl = "http://localhost:5291/api";
 
