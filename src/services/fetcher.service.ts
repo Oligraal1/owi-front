@@ -12,7 +12,7 @@ import {
 import {Listing} from "../components/models/listing.model";
 import {Project} from "../components/models/project.model";
 import {Task} from "../components/models/task.model";
-import { Comment } from "../components/models/comment.model";
+import { Commentaire } from "../components/models/commentaire.model";
 
 @Injectable({
   providedIn: "root"
@@ -73,7 +73,7 @@ export class FetcherService {
   //         console.log(`Loaded tasks for listing ${listing.id}:`, tasks);
   //         return tasks;
   //       }),
-  //       switchMap((tasks: Task[]) => this.loadCommentsForTasks(listing, tasks)),
+  //       switchMap((tasks: Task[]) => this.loadCommentairesForTasks(listing, tasks)),
   //       catchError(error => {
   //         console.error(
   //           `Error loading tasks for listing ${listing.id}:`,
@@ -89,11 +89,11 @@ export class FetcherService {
   //     : [];
   // }
 
-  // private loadCommentsForTasks(listing: Listing, tasks: Task[]) {
+  // private loadCommentairesForTasks(listing: Listing, tasks: Task[]) {
   //   const commentsRequests = tasks.map((task, index) =>
-  //     this.http.get<Comment[]>(`${this.apiUrl}/comment/task/${task.id}`).pipe(
+  //     this.http.get<Commentaire[]>(`${this.apiUrl}/comment/task/${task.id}`).pipe(
   //       map((commentsData: any[]) => {
-  //         const comments: Comment[] = commentsData.map(comment => ({
+  //         const comments: Commentaire[] = commentsData.map(comment => ({
   //           id: comment.id,
   //           content: comment.content,
   //           taskId: comment.taskId
@@ -132,7 +132,7 @@ export class FetcherService {
                 if(this.prj.listings[index].tasks) {
                 this.prj.listings[index].tasks = tasks;
                 tasks.forEach((task, i) => {
-                  this.http.get<Comment[]>(`${this.apiUrl}/comment/task/${task.id}/${listing.id}`).subscribe(
+                  this.http.get<Commentaire[]>(`${this.apiUrl}/comment/task/${task.id}/${listing.id}`).subscribe(
                     (comments) => {
                       console.log('comment', this.prj.listings[index].tasks[i].comments)
                       if(this.prj.listings[index].tasks[i].comments) {
@@ -245,27 +245,27 @@ export class FetcherService {
   }
 
   //COMMENTS
-  getCommentsByTaskId(taskId: number): Observable<Comment[]> {
-    return this.http.get<Comment[]>(`${this.apiUrl}/comments/task/${taskId}`);
+  getCommentairesByTaskId(taskId: number): Observable<Commentaire[]> {
+    return this.http.get<Commentaire[]>(`${this.apiUrl}/comments/task/${taskId}`);
   }
 
-  createComment(comment: Comment): Observable<Comment> {
-  return this.http.post<Comment>(`${this.apiUrl}/comment`, comment).pipe(
+  createCommentaire(comment: Commentaire): Observable<Commentaire> {
+  return this.http.post<Commentaire>(`${this.apiUrl}/comment`, comment).pipe(
     tap(() => this.refresh(this.idProject))
   );
 }
 
-  updateComment(
+  updateCommentaire(
     id: number,
-    comment: Comment,
+    comment: Commentaire,
     projectId: number
-  ): Observable<Comment> {
+  ): Observable<Commentaire> {
     return this.http
-      .put<Comment>(`${this.apiUrl}/comments/${id}`, comment)
+      .put<Commentaire>(`${this.apiUrl}/comments/${id}`, comment)
       .pipe(tap(() => this.refresh(projectId)));
   }
 
-  deleteComment(id: number, projectId: number): Observable<void> {
+  deleteCommentaire(id: number, projectId: number): Observable<void> {
     return this.http
       .delete<void>(`${this.apiUrl}/comments/${id}`)
       .pipe(tap(() => this.refresh(projectId)));

@@ -4,7 +4,7 @@ import { FetcherService } from '../../services/fetcher.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Comment } from '../models/comment.model';
+import { Commentaire } from '../models/commentaire.model';
 
 @Component({
   selector: 'app-task',
@@ -18,10 +18,10 @@ export class TaskComponent implements OnInit{
   listingId!: number;
   taskId!: number;
   projectId: any = 0;
-  comments: Comment[] = [];
+  comments: Commentaire[] = [];
   newComment: string = '';
   user: string = '';
-  comment!: Comment;
+  comment!: Commentaire;
   commentForm!: FormGroup;
 
   constructor(private route: ActivatedRoute, private api: FetcherService, private fb: FormBuilder) {}
@@ -39,7 +39,7 @@ loadTask() {
     if(this.api.prj) {
       this.projectId = this.api.prj.id;
     }
-    
+
     const listing = this.api.prj.listings.find(l => l.id === this.listingId);
     if (listing) {
       console.log('tasks:', listing.tasks);
@@ -65,14 +65,14 @@ createCommentForm() {
 
   addComment() {
     if (this.commentForm.valid) {
-      const commentData: Comment = {
+      const commentData: Commentaire = {
         content: this.commentForm.get('content')?.value,
         createdAt: new Date(),
         taskId: this.taskId,
         user:this.commentForm.get('user')?.value
       };
 
-      this.api.createComment(commentData).subscribe(
+      this.api.createCommentaire(commentData).subscribe(
         (newComment) => {
           this.task.comments.push(newComment); // Ajouter le nouveau commentaire à la liste des commentaires
           this.commentForm.reset(); // Réinitialiser le formulaire après l'ajout du commentaire
@@ -89,7 +89,7 @@ createCommentForm() {
   }
 
   deleteComment(commentId: number) {
-    this.api.deleteComment(commentId, this.projectId).subscribe(
+    this.api.deleteCommentaire(commentId, this.projectId).subscribe(
       () => {
         this.comments = this.comments.filter(comment => comment.id !== commentId);
       },

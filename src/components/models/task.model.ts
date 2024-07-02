@@ -1,4 +1,4 @@
-import { Comment } from './comment.model';
+import { Commentaire } from './commentaire.model';
 
 export interface Task {
   id?: number;
@@ -9,5 +9,5 @@ export interface Task {
   listingId: number;
   deadline?: Date;
   showDropdown?: boolean;
-  comments: Comment[];
+  comments: Commentaire[];
 }
