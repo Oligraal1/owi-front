@@ -38,9 +38,10 @@ export class FetcherService {
         console.log("yolo", this.prj);
         this.http.get<Listing[]>(`${this.apiUrl}/listing/${id}`).subscribe(
           (listings) => {
+            console.log("listings", listings);
             this.prj.listings = listings;
             listings.forEach((listing, index) => {
-              this.http.get<Task[]>(`${this.apiUrl}/task/listing/${id}`).subscribe(
+              this.http.get<Task[]>(`${this.apiUrl}/Task/Listing/${listing.id}`).subscribe(
                 (tasks) => {
                   this.prj.listings[index].tasks = tasks; // Assurez-vous que 'tasks' est bien une propriété de Listing
                 },
