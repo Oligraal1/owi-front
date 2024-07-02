@@ -1,0 +1,51 @@
+
+
+<div *ngIf="!showCardTask">
+
+  <div class="title-container d-flex align-items-center"
+    *ngIf="!showListingForm">
+    <h2 class="flex-grow-1">{{ title }}</h2>
+    <div class="dropdown">
+      <button class="btn btn-primary-outline dropdown-toggle" type="button"
+        id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+        ...
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <li><a class="dropdown-item" (click)="editListing()">Éditer <i class="fa-regular fa-pen-to-square"></i></a></li>
+        <li><a class="dropdown-item"
+            (click)="deleteListing(this.listingId)">Supprimer <i class="fa-solid fa-trash"></i></a></li>
+        <li><a class="dropdown-item" (click)="createTask()">Ajouter une nouvelle
+            tâche <i class="fa-regular fa-plus"></i></a></li>
+      </ul>
+    </div>
+  </div>
+
+  <app-listing-form
+    *ngIf="showListingForm"
+    [listingId]="listingId"
+    [projectId]="projectId"
+    >
+  </app-listing-form>
+
+  <app-task-board
+    *ngIf="!showTaskForm"
+    [tasks]="tasks"
+    [listingId]="listingId"
+    (loadTasks)="loadTasksByListing(listingId)"
+    [connectedTo]="connectedTo"
+    [showCardTask]="showCardTask"
+    [showTaskForm]="showTaskForm"
+    [projectId]="projectId">
+  </app-task-board>
+
+  <app-create-task
+    *ngIf="showTaskCreate"
+    [listingId]="listingId"
+    [showTaskCreate]="showTaskCreate"
+    [projectId]="projectId">
+  </app-create-task>
+
+</div>
+<div *ngIf="showCardTask">
+  <app-task></app-task>
+</div>

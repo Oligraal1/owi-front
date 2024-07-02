@@ -1,0 +1,24 @@
+<div *ngIf="task" class="container mt-4">
+  <button *ngIf="isFormVisible" type="button" class="close-btn" (click)="closeForm()"><i class="fas fa-times"></i></button>
+  <h3>Modifier la tâche</h3>
+  <form (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="name" class="form-label">Nom :</label>
+      <input type="text" id="name" [(ngModel)]="task.name" name="name" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label">Description :</label>
+      <textarea id="description" [(ngModel)]="task.description" name="description" class="form-control"></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="deadline" class="form-label">Date limite :</label>
+      <input type="date" id="deadline" [(ngModel)]="task.deadline" name="deadline" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label for="tag" class="form-label">Tag :</label>
+      <input type="color" id="tag" [(ngModel)]="task.tag" name="tag" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary me-2">Sauvegarder</button>
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">Annuler</button>
+  </form>
+</div>

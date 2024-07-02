@@ -1,0 +1,13 @@
+.container-fluid{
+    padding: 0;
+}
+
+app-nav{
+    display: flex;
+    flex:1;
+    overflow: hidden;
+}
+
+.col-8{
+    overflow-y: auto;
+}

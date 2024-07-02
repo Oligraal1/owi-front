@@ -1,0 +1,24 @@
+<div class="container mt-4 createTaskModal" *ngIf="isFormVisible">
+  <h3>Créer une tâche</h3>
+  <button type="button" class="close-btn" (click)="closeForm()"><i class="fas fa-times"></i></button>
+  <form (ngSubmit)="onSubmit()" [formGroup]="taskForm">
+    <div class="mb-3">
+      <label for="name" class="form-label">Nom :</label>
+      <input type="text" id="name" name="name" class="form-control"  formControlName="name" required >
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label">Description :</label>
+      <textarea id="description" name="description" class="form-control" formControlName="description" ></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="deadline" class="form-label">Date limite :</label>
+      <input type="date" id="deadline" name="deadline" class="form-control" formControlName="deadline" >
+    </div>
+    <div class="mb-3">
+      <label for="tag" class="form-label">Tag :</label>
+      <input type="color" id="tag" name="tag" class="form-control form-control-color" formControlName="tag" >
+    </div>
+    <button type="submit" class="btn btn-primary me-2">Enregistrer</button>
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">Annuler</button>
+  </form>
+</div>

@@ -1,0 +1,32 @@
+.nav-container{
+    margin: 5px;
+}
+.project-item:hover{
+  cursor: pointer;
+  background-color:#60B0FA;
+  color:#ffffff
+}
+.project-name{
+  display: flex;
+}
+
+.selected-project{
+  background-color:#E7B616;
+}
+
+.project-menu{
+  display: flex;
+}
+
+.project-buttons{
+  display: flex;
+  align-items: flex-end ;
+}
+
+.project-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+  }
+
