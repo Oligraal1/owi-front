@@ -10,7 +10,7 @@
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <li><a class="dropdown-item text-primary" (click)="editListing()"><i class="fa-regular fa-pen-to-square"></i>  Modifier</a></li>
         <li><a class="dropdown-item text-danger"
-          (click)="deleteListing(this.listingId)"><i class="fa-solid fa-trash"></i>  Supprimer</a></li>
+          (click)="deleteListing(this.listing.id)"><i class="fa-solid fa-trash"></i>  Supprimer</a></li>
         <li><a class="dropdown-item text-success" (click)="createTask()"><i class="fa-regular fa-plus"></i>  Nouvelle
           tâche</a></li>
       </ul>
@@ -19,25 +19,22 @@
 
   <app-listing-form
     *ngIf="showListingForm"
-    [listingId]="listingId"
+    [listingId]="listing.id"
     [projectId]="projectId"
     >
   </app-listing-form>
 
   <app-task-board
-    *ngIf="!showTaskForm"
-    [tasks]="tasks"
-    [listingId]="listingId"
-    (loadTasks)="loadTasksByListing(listingId)"
+    [tasks]="this.listing.tasks"
     [connectedTo]="connectedTo"
     [showCardTask]="showCardTask"
     [showTaskForm]="showTaskForm"
-    [projectId]="projectId">
+    >
   </app-task-board>
 
   <app-create-task
     *ngIf="showTaskCreate"
-    [listingId]="listingId"
+    [listingId]="listing.id"
     [showTaskCreate]="showTaskCreate"
     [projectId]="projectId">
   </app-create-task>

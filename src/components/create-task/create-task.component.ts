@@ -46,7 +46,7 @@ export class CreateTaskComponent implements OnInit {
       listingId: this.listingId,
       deadline: this.taskForm.value.deadline,
       comments: [],
-  
+
     };
     console.log("newTask", newTask)
       this.api.createTask(newTask, this.projectId).subscribe(

@@ -6,49 +6,11 @@
   (cdkDropListDropped)="drop($event, listingId)"
   [cdkDropListConnectedTo]="connectedTo">
 
-  <!--<app-create-task [listingId]="listingId"></app-create-task> -->
 
   <div *ngFor="let task of tasks" cdkDrag
     class="title-container d-flex align-items-center">
     <div class="task" [style.background-color]="task.tag">
-      <div class="flex-grow-1">{{task.name}}
-        <div class="dropdown">
-          <button class="btn btn-secondary-outline dropdown-toggle"
-            type="button"
-            id="dropdownMenuButton" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            ...
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton"
-            *ngIf="task.id !== undefined">
-            <li><a class="dropdown-item" (click)="editTask(task)">Éditer <i
-                  class="fa-regular fa-pen-to-square"></i></a></li>
-            <li><a class="dropdown-item"
-                (click)="deleteTask(task.id)">Supprimer <i
-                  class="fa-solid fa-trash"></i></a></li>
-            <li><a class="dropdown-item" (click)="openSelectListing()">Déplacer
-                <i class="fa-regular fa-pen-to-square"></i></a></li>
-            <li><a class="dropdown-item"
-                [routerLink]="['/Task', listingId, task.id]"
-                routerLinkActive="router-link-active">Voir la tâche <i
-                  class="fa-regular fa-eye"></i></a>
-              <form *ngIf="isOpen" (ngSubmit)="moveTask(task)"
-                [formGroup]="moveTaskForm">
-                <div class="form-group">
-                  <label for="selectListing">Sélectionner le listing :</label>
-                  <select id="selectListing" name="selectListing"
-                    class="form-control" [(ngModel)]="selectedListingId"
-                    required>
-                    <option *ngFor="let listing of listings"
-                      [value]="listing.id">{{ listing.name }}</option>
-                  </select>
-                </div>
-                <button type="submit" class="btn btn-primary">Déplacer la
-                  tâche</button>
-              </form>
-            </li>
-          </ul>
-        </div>
+
     <div class="flex-grow-1">{{task.name}}
     <div class="dropdown">
       <button class="btn btn-secondary-outline dropdown-toggle" type="button"
@@ -58,14 +20,31 @@
         <li><a class="dropdown-item text-primary" (click)="editTask(task)"><i class="fa-regular fa-pen-to-square"></i>  Modifier</a></li>
         <li><a class="dropdown-item text-danger"
             (click)="deleteTask(task.id)"><i class="fa-solid fa-trash"></i>  Supprimer</a></li>
-        <li><a class="dropdown-item text-success" [routerLink]="['/Task', task.id]" routerLinkActive="router-link-active"><i class="fa-regular fa-eye"></i>  Ouvrir la tâche</a></li>
+        <li><a class="dropdown-item" (click)="openSelectListing()">Déplacer
+          <i class="fa-regular fa-pen-to-square"></i></a></li>
+      <li><a class="dropdown-item"
+          [routerLink]="['/Task', task.id]"
+          routerLinkActive="router-link-active">Voir la tâche <i
+            class="fa-regular fa-eye"></i></a>
+
+      </li>
       </ul>
+      <form *ngIf="isOpen" [formGroup]="moveTaskForm" (ngSubmit)="moveTask(task)">
+        <div class="form-group">
+          <label for="selectListing">Sélectionner le listing :</label>
+          <select id="selectListing" formControlName="selectListing" class="form-control" required>
+            <option *ngFor="let listing of api.prj.listings" [value]="listing.id">{{ listing.name }}</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="moveTaskForm.invalid">Déplacer la tâche</button>
+      </form>
+
     </div>
     </div>
       </div>
     </div>
   </div>
-</div>
+
 
 <app-task-form
   *ngIf="editingTask"
@@ -73,3 +52,4 @@
   (taskUpdated)="updateTask($event)"
   (cancelEdit)="cancelEdit()">
 </app-task-form>
+

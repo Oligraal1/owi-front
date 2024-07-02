@@ -14,51 +14,30 @@ import { Commentaire } from '../models/commentaire.model';
   styleUrl: './task.component.scss'
 })
 export class TaskComponent implements OnInit{
-  task!: Task;
-  listingId!: number;
+  task!: Task | undefined;
   taskId!: number;
-  projectId: any = 0;
-  comments: Commentaire[] = [];
-  newComment: string = '';
-  user: string = '';
-  comment!: Commentaire;
   commentForm!: FormGroup;
 
   constructor(private route: ActivatedRoute, private api: FetcherService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.listingId = Number(params.get('listingId'));
       this.taskId = Number(params.get('id'));
-      this.loadTask();
-       this.createCommentForm();
+      this.api.getTask(this.taskId).subscribe((tache) => {
+
+        this.task = tache;
+        this.api.getCommentairesByTaskId(this.taskId).subscribe(
+          (coms)=> this.task!.comments! = coms
+        )
+        console.log('Matache', tache);
+      });
+      this.createCommentForm();
     });
   }
-loadTask() {
-    console.log('listings:', this.api.prj.listings);
-    if(this.api.prj) {
-      this.projectId = this.api.prj.id;
-    }
 
-    const listing = this.api.prj.listings.find(l => l.id === this.listingId);
-    if (listing) {
-      console.log('tasks:', listing.tasks);
-      const task = listing.tasks.find(t => t.id === this.taskId);
-      if (task) {
-        this.task = task;
-        if(task.comments) {
-        this.comments = task.comments;
-        }
-      } else {
-        console.error('Task not found');
-      }
-    } else {
-      console.error('Listing not found');
-    }
-  }
-
-createCommentForm() {
+  createCommentForm() {
     this.commentForm = this.fb.group({
+      user: ['', Validators.required],
       content: ['', Validators.required]
     });
   }
@@ -69,13 +48,17 @@ createCommentForm() {
         content: this.commentForm.get('content')?.value,
         createdAt: new Date(),
         taskId: this.taskId,
-        user:this.commentForm.get('user')?.value
+        user: this.commentForm.get('user')?.value
       };
 
       this.api.createCommentaire(commentData).subscribe(
         (newComment) => {
-          this.task.comments.push(newComment); // Ajouter le nouveau commentaire à la liste des commentaires
-          this.commentForm.reset(); // Réinitialiser le formulaire après l'ajout du commentaire
+          console.log('TASK2', this.task)
+          if (this.task) {
+            this.task.comments.push(newComment);
+            console.log('Comments', this.task.comments);
+            this.commentForm.reset();
+          }
         },
         (error) => {
           console.error('Erreur lors de l\'ajout du commentaire :', error);
@@ -89,13 +72,17 @@ createCommentForm() {
   }
 
   deleteComment(commentId: number) {
-    this.api.deleteCommentaire(commentId, this.projectId).subscribe(
-      () => {
-        this.comments = this.comments.filter(comment => comment.id !== commentId);
-      },
-      (error) => {
-        console.error('Error deleting comment', error);
-      }
-    );
+    if (this.api.prj && this.api.prj.id) {
+      this.api.deleteCommentaire(commentId, this.api.prj.id).subscribe(
+        () => {
+          if (this.task) {
+            this.task.comments = this.task.comments.filter(comment => comment.id !== commentId);
+          }
+        },
+        (error) => {
+          console.error('Error deleting comment', error);
+        }
+      );
+    }
   }
 }

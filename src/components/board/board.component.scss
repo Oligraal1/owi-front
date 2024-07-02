@@ -9,7 +9,7 @@
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
 }
- 
+
 .title-button {
   display: block;
   a {
@@ -18,6 +18,8 @@
 }
 .title {
   display: flex;
+  margin-top: 10px;
+  padding-top:25px;
   //margin: 5px;
   flex-direction: row;
   justify-content: space-between;

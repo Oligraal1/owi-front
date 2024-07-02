@@ -14,6 +14,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { ListingFormComponent } from '../listing-form/listing-form.component';
 import { TaskBoardComponent } from '../task-board/task-board.component';
+import { Listing } from '../models/listing.model';
 
 @Component({
   selector: 'app-column-board',
@@ -37,7 +38,7 @@ import { TaskBoardComponent } from '../task-board/task-board.component';
 export class ColumnBoardComponent implements OnInit {
   @Input() title: string = '';
   @Input() connectedTo: string[] = [];
-  @Input() listingId!: number;
+  @Input() listing!: Listing;
   @Input() projectId!: number;
   tasks: Task[] = [];
   editingTask: Task | null = null;
@@ -51,30 +52,8 @@ export class ColumnBoardComponent implements OnInit {
   constructor(public api: FetcherService, public dialog: MatDialog) { }
 
    ngOnInit(): void {
-    if (this.api.prj && this.api.prj.listings) {
-      const listing = this.api.prj.listings.find(l => l.id === this.listingId);
-      if (listing) {
-        this.tasks = listing.tasks;
-      } else {
-        console.error(`Listing with ID ${this.listingId} not found`);
-      }
-    } else {
-      console.error('Listings not loaded');
-    }
   }
 
-  loadTasksByListing(listingId: number): void {
-    if (this.api.prj.listings) {
-      const listing = this.api.prj.listings.find(l => l.id === listingId);
-      if (listing) {
-        this.tasks = listing.tasks;
-      } else {
-        console.error(`Listing with ID ${listingId} not found`);
-      }
-    } else {
-      console.error('Listings not loaded');
-    }
-  }
   // drop(event: CdkDragDrop<any[]>, id: number) {
   //   console.log(1000, this.connectedTo)
   //   if (event.previousContainer === event.container) {
@@ -122,7 +101,7 @@ export class ColumnBoardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.api.deleteListing(this.listingId, this.projectId).subscribe(
+        this.api.deleteListing(this.listing.id, this.projectId).subscribe(
           () => {
             console.log("Liste deleted")
           },

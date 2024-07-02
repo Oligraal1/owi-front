@@ -126,24 +126,26 @@ export class FetcherService {
       this.http.get<Listing[]>(`${this.apiUrl}/listing/${projectId}`).subscribe(
         (listings) => {
           this.prj.listings = listings;
+          console.log("ok Listes", listings)
           listings.forEach((listing, index) => {
             this.http.get<Task[]>(`${this.apiUrl}/task/listing/${listing.id}`).subscribe(
               (tasks) => {
                 if(this.prj.listings[index].tasks) {
+                  console.log("ok", tasks)
                 this.prj.listings[index].tasks = tasks;
-                tasks.forEach((task, i) => {
-                  this.http.get<Commentaire[]>(`${this.apiUrl}/comment/task/${task.id}/${listing.id}`).subscribe(
-                    (comments) => {
-                      console.log('comment', this.prj.listings[index].tasks[i].comments)
-                      if(this.prj.listings[index].tasks[i].comments) {
-                      this.prj.listings[index].tasks[i].comments = comments;
-                      }
-                    },
-                    (error) => {
-                      console.error(`Erreur lors du chargement des commentaires pour la tâche ${task.id}`, error);
-                    }
-                  );
-                });
+                // tasks.forEach((task, i) => {
+                //   this.http.get<Commentaire[]>(`${this.apiUrl}/comment/task/${task.id}/${listing.id}`).subscribe(
+                //     (comments) => {
+                //       console.log('comment', this.prj.listings[index].tasks[i].comments)
+                //       if(this.prj.listings[index].tasks[i].comments) {
+                //       this.prj.listings[index].tasks[i].comments = comments;
+                //       }
+                //     },
+                //     (error) => {
+                //       console.error(`Erreur lors du chargement des commentaires pour la tâche ${task.id}`, error);
+                //     }
+                //   );
+                // });
                 }
               },
               (error) => {
@@ -226,6 +228,14 @@ export class FetcherService {
     return this.http.get<Task[]>(`${this.apiUrl}/task/listing/${listingId}`);
   }
 
+  getTask(id : number): Observable<any> {
+    return this.http.get<Task>(`${this.apiUrl}/task/${id}`).pipe(
+      tap(
+        (value)=>console.log(value)
+      )
+    )
+  }
+
   createTask(task: any, projectId: number): Observable<any> {
     return this.http
       .post<any>(`${this.apiUrl}/task`, task)
@@ -246,7 +256,7 @@ export class FetcherService {
 
   //COMMENTS
   getCommentairesByTaskId(taskId: number): Observable<Commentaire[]> {
-    return this.http.get<Commentaire[]>(`${this.apiUrl}/comments/task/${taskId}`);
+    return this.http.get<Commentaire[]>(`${this.apiUrl}/comment/task/${taskId}`);
   }
 
   createCommentaire(comment: Commentaire): Observable<Commentaire> {
@@ -261,13 +271,13 @@ export class FetcherService {
     projectId: number
   ): Observable<Commentaire> {
     return this.http
-      .put<Commentaire>(`${this.apiUrl}/comments/${id}`, comment)
+      .put<Commentaire>(`${this.apiUrl}/comment/${id}`, comment)
       .pipe(tap(() => this.refresh(projectId)));
   }
 
   deleteCommentaire(id: number, projectId: number): Observable<void> {
     return this.http
-      .delete<void>(`${this.apiUrl}/comments/${id}`)
+      .delete<void>(`${this.apiUrl}/comment/${id}`)
       .pipe(tap(() => this.refresh(projectId)));
   }
 }

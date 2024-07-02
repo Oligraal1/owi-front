@@ -1,9 +1,11 @@
  <div class="container">
   <div class="title">
     <h1>Projet : {{this.api.prj.name}}</h1>
+
     <button class="title-button btn btn-primary-outline"><a [routerLink]="['/Home']" routerLinkActive="router-link-active" >Retour</a></button>
   </div>
-
+  <div *ngIf="this.api.prj.deadline">Deadline du projet :  {{this.api.prj.deadline | date:'short'}}</div>
+  <div *ngIf="this.api.prj.description">Description : {{this.api.prj.description}}</div>
   <!-- Bouton pour ouvrir la modal de création -->
   <button type="button" class="btn btn-success create"
     (click)="openCreateListingModal()">+ Nouvelle liste</button>
@@ -12,7 +14,7 @@
     <app-column-board
       *ngFor="let listing of this.api.prj.listings"
       [title]="listing.name"
-      [listingId]="listing.id"
+      [listing]="listing"
       [connectedTo]="getConnectedToList(listing.id)"
       [projectId]= "this.projectId"
       >

@@ -1,4 +1,4 @@
-<div class="container mt-4 createTaskModal" *ngIf="isFormVisible">
+<div class="container mt-4 createTaskModal">
   <h3>Créer une tâche</h3>
   <button type="button" class="close-btn" (click)="closeForm()"><i class="fas fa-times"></i></button>
   <form (ngSubmit)="onSubmit()" [formGroup]="taskForm">
