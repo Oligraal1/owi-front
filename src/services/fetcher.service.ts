@@ -11,10 +11,10 @@ import { Task } from "../components/models/task.model";
 export class FetcherService {
     constructor(public http: HttpClient) {
     }
-    /*
-    private apiUrl = "https://owi-back.azurewebsites.net"}
-    */
-   private apiUrl = "http://localhost:5291/api";
+
+    private apiUrl = "https://owi-back.azurewebsites.net"
+
+  //  private apiUrl = "http://localhost:5291/api";
 
 
 
