@@ -1,1 +1,16 @@
-/*# sourceMappingURL=app.component.css.map */
+.container-fluid {
+  padding: 0;
+}
+
+app-nav {
+  display: flex;
+  overflow: hidden;
+  margin: 10px;
+}
+
+.container-center {
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  align-self: start;
+}/*# sourceMappingURL=app.component.css.map */

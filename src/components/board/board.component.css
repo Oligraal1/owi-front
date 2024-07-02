@@ -5,7 +5,9 @@
   padding: 16px;
   background-color: #f0f0f0;
   height: 100vh;
-  margin: 50px auto;
+  margin: 10px auto;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
 }
 
 .title-button {
@@ -17,6 +19,26 @@
 
 .title {
   display: flex;
+  margin-top: 10px;
+  padding-top: 25px;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.container {
+  margin: 5px;
+  background-color: rgb(246, 246, 246);
+  width: 75vw;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+h1 {
+  color: #0273FC;
+  font-weight: bold;
+}
+
+h3 {
+  color: #0239FE;
+  font-weight: bold;
 }/*# sourceMappingURL=board.component.css.map */

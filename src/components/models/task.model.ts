@@ -1,11 +1,13 @@
+import { Commentaire } from './commentaire.model';
+
 export interface Task {
-  showDropdown?: boolean;
   id?: number;
   name: string;
-  description?: string;
   createdAt?: Date;
-  modifiedAt?: Date;
+  description?: string;
   tag?: string;
   listingId: number;
   deadline?: Date;
+  showDropdown?: boolean;
+  comments: Commentaire[];
 }

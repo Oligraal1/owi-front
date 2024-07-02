@@ -68,4 +68,12 @@ button {
 
 .dropdown-menu.show {
   display: block;
+}
+
+h1 {
+  color: #0273FC;
+}
+
+h2 {
+  color: #0239FE;
 }/*# sourceMappingURL=task-board.component.css.map */

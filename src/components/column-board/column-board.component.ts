@@ -14,11 +14,12 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { ListingFormComponent } from '../listing-form/listing-form.component';
 import { TaskBoardComponent } from '../task-board/task-board.component';
+import { Listing } from '../models/listing.model';
 
 @Component({
   selector: 'app-column-board',
   templateUrl: './column-board.component.html',
-  styleUrls: ['./column-board.component.css'],
+  styleUrls: ['./column-board.component.scss'],
   standalone: true,
   imports: [
     CommonModule,
@@ -37,7 +38,7 @@ import { TaskBoardComponent } from '../task-board/task-board.component';
 export class ColumnBoardComponent implements OnInit {
   @Input() title: string = '';
   @Input() connectedTo: string[] = [];
-  @Input() listingId!: number;
+  @Input() listing!: Listing;
   @Input() projectId!: number;
   tasks: Task[] = [];
   editingTask: Task | null = null;
@@ -48,18 +49,9 @@ export class ColumnBoardComponent implements OnInit {
   @Output() loadListings = new EventEmitter<void>();
   @Output() loadTasks = new EventEmitter<void>;
 
-  constructor(private api: FetcherService, public dialog: MatDialog) { }
+  constructor(public api: FetcherService, public dialog: MatDialog) { }
 
-  ngOnInit(): void {
-    this.loadTasksByListing(this.listingId);
-    console.log("listingId", this.listingId)
-    // console.log(2500,this.connectedTo)
-  }
-
-  loadTasksByListing(id: number) {
-    this.api.getTasksByIdListing(id).subscribe(data => {
-      this.tasks = data.map((task: Task) => ({ ...task, showDropdown: false }));
-    });
+   ngOnInit(): void {
   }
 
   // drop(event: CdkDragDrop<any[]>, id: number) {
@@ -109,7 +101,7 @@ export class ColumnBoardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.api.deleteListing(this.listingId, this.projectId).subscribe(
+        this.api.deleteListing(this.listing.id, this.projectId).subscribe(
           () => {
             console.log("Liste deleted")
           },
