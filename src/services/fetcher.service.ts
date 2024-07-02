@@ -18,21 +18,12 @@ import { Commentaire } from "../components/models/commentaire.model";
   providedIn: "root"
 })
 export class FetcherService {
-<<<<<<< HEAD
     constructor(public http: HttpClient) {
     }
 
     private apiUrl = "https://owi-back.azurewebsites.net/api"
 
   //  private apiUrl = "http://localhost:5291/api";
-=======
-  constructor(public http: HttpClient) {}
-  /*
-    private apiUrl = "https://owi-back.azurewebsites.net"}
-    */
-  private apiUrl = "http://localhost:5291/api";
-  private idProject!: number;
->>>>>>> boardPage
 
   public prj: Project = {
     id: 1,
@@ -130,7 +121,7 @@ export class FetcherService {
   this.http.get<any>(`${this.apiUrl}/projects/${projectId}`).subscribe(
     (response) => {
       this.prj = response;
-      this.idProject = response.id;
+
       console.log("this.prj", this.prj);
       this.http.get<Listing[]>(`${this.apiUrl}/listing/${projectId}`).subscribe(
         (listings) => {
@@ -142,19 +133,19 @@ export class FetcherService {
                 if(this.prj.listings[index].tasks) {
                   console.log("ok", tasks)
                 this.prj.listings[index].tasks = tasks;
-                // tasks.forEach((task, i) => {
-                //   this.http.get<Commentaire[]>(`${this.apiUrl}/comment/task/${task.id}/${listing.id}`).subscribe(
-                //     (comments) => {
-                //       console.log('comment', this.prj.listings[index].tasks[i].comments)
-                //       if(this.prj.listings[index].tasks[i].comments) {
-                //       this.prj.listings[index].tasks[i].comments = comments;
-                //       }
-                //     },
-                //     (error) => {
-                //       console.error(`Erreur lors du chargement des commentaires pour la tâche ${task.id}`, error);
-                //     }
-                //   );
-                // });
+                tasks.forEach((task, i) => {
+                  this.http.get<Commentaire[]>(`${this.apiUrl}/comment/task/${task.id}/${listing.id}`).subscribe(
+                    (comments) => {
+                      console.log('comment', this.prj.listings[index].tasks[i].comments)
+                      if(this.prj.listings[index].tasks[i].comments) {
+                      this.prj.listings[index].tasks[i].comments = comments;
+                      }
+                    },
+                    (error) => {
+                      console.error(`Erreur lors du chargement des commentaires pour la tâche ${task.id}`, error);
+                    }
+                  );
+                });
                 }
               },
               (error) => {
@@ -269,9 +260,8 @@ export class FetcherService {
   }
 
   createCommentaire(comment: Commentaire): Observable<Commentaire> {
-  return this.http.post<Commentaire>(`${this.apiUrl}/comment`, comment).pipe(
-    tap(() => this.refresh(this.idProject))
-  );
+  return this.http.post<Commentaire>(`${this.apiUrl}/comment`, comment)
+  ;
 }
 
   updateCommentaire(
